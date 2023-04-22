@@ -12,6 +12,7 @@
         <div class="title"><span style="color: #FF872B;">To Do </span>List</div>
         <button class="logout">Log Out</button>
     </div>
+    
     <div class = "page">
         <button class="addTask">Add Task</button>
         <script>
@@ -25,7 +26,13 @@
                 )
             }
         </script>
-
+        <div class="categoryBox">
+            <script>
+                for(var i=0;i<3;i++)
+                    document.write('<button class = "category">Assignment</button>')
+            </script>
+            <button class="addCategory">+</button>
+        </div>
     </div>
 </body>
 </html>
