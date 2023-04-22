@@ -1,51 +1,54 @@
 <!DOCTYPE html>
 <html>
+    <ul>
+        <li><a >To DoList</a></li>
+        <li><button class="button logout-button" onclick=logout()>Login</button></li>
+    </ul>
+    <button class = "button">Add Task</button>
     <head>
         <meta charset="UTF-8">
-        <title>รายการฝากซื้อ</title>
+        <title>MyCourseville API Home Page</title>
         <link rel="stylesheet" href="style.css"></link>
-        <script src="script_item.js" defer></script>
+        <script src="script_cv.js" defer></script>
     </head>
-    <body>
-        <section>
-            <header><h1 id="app-name">รายการฝากซื้อ Group <span id="group-no"></span> </h1></header>
-        </section>
-        <section>
-            <header><h2 class="section-title">รายชื่อผู้มีสิทธิฝากซื้อ</h2><span class="section-subtitle">(สมาชิกในกลุ่ม)</span></header>
-            <ul id="member-list"> </ul>
-        </section>
-        <section>
-            <header><h2 class="section-title">รายการฝากซื้อ</h2></header>
-            <table class="main-table">
-                <thead>
-                    <tr>
-                        <th>ของที่ฝากซื้อ</th>
-                        <th>ชื่อผู้ฝากซื้อ</th>
-                        <th>ราคา (บาท)</th>
-                        <th>ดำเนินการ</th>
-                    </tr>
-                </thead>
-                <tbody id="main-table-body">
-                    
-                </tbody>
-                <tfoot>
-                    <tr id="newrow-form">
-                        <td><input id="item-to-add" type="text"/></td>
-                        <td>
-                            <select id="name-to-add">
-                            </select>
-                        </td>
-                        <td><input id="price-to-add" type="number"/></td>
-                        <td><button id="add-newrow" onclick=addItem()>เพิ่ม</button></td>
-                    </tr>
-                </tfoot>
-            </table>
-        </section>
-        <section class="section-center">
-            <button class="button change-page-button" onclick="window.location.href='login.html'">Go to MyCourseville API Login Page</button>
-        </section>
-        <section class="section-credit">
+    <body onload=getUserProfile();getCompEngEssCid();>
+        <div>
+           
+            <section>
+                <header>
+                    <h1 id="app-name">MyCourseville API Home Page Group <span id="group-id"></span></h1>
+                </header>
+            </section>
+            <section>
+                <h2 class="section-title">1. Profile Section</h2>
+                <p class="info"> Name-Surname (English) : <span id="eng-name-info"></span></br>
+                    Name-Surname (Thai) : <span id="thai-name-info"></span></p>
+            </section>
+            <section>
+                <h2 class="section-title">2. Get Computer Engineering Essential CV_cid</h2>
+                <p id="info"> The CV_cid value of Computer Engineering Essential subject is <span id="ces-cid-value"></span>.</p>
+            </section>
+            <section>
+                <h2 class="section-title">3. Get Computer Engineering Essential Assignments</h2>
+                <button class="button create-ces-assignment-table" onclick=createCompEngEssAssignmentTable()>Create table</button>
+                <table class="main-table">
+                    <thead>
+                        <tr id="main-table-head">
+                            <th>Id</th>
+                            <th>Title</th>
+                        </tr>
+                    </thead>
+                    <tbody id="main-table-body">
+                        <tr id=0>
+                            <td>...</td>
+                            <td>...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+        <div class="section-credit">
             &#169; 2110221 Computer Engineering Essentials (2022/2) &#169;
-        </section>
+        </div>
     </body>
 </html>

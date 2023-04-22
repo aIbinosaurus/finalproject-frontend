@@ -1,135 +1,115 @@
-@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?https://fonts.google.com/specimen/Inter=Mitr:wght@200;400;600&display=swap");
 
-:root {
-  --standard-border-radius: 8px;
-}
-
-body {
-  font-family: "Mitr", sans-serif;
-}
-
-#app-name {
-  font-size: 2.2em;
-  font-weight: bold;
-  margin: 0;
-  text-align: center;
+#navbar {
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 0;
+  left: 0;
+  background-color: #093753;
 }
 
-section {
-  margin: 20px 0;
-}
-.section-title {
-  font-size: 1.25em;
-  font-weight: bold;
-  margin: 10px 0;
-}
-.section-subtitle {
-  font-size: 1.1em;
-}
-.section-center {
-  text-align: center;
-}
-.section-credit {
-  text-align: center;
-  font-size: 1.1em;
-}
-.section-right {
-  text-align: right;
-}
-.section-left {
-  text-align: left;
+@media screen and (max-width: 768px) {
+  #navbar {
+    height: 15vh;
+  }
 }
 
-.description {
-  text-align: center;
-  color: rgb(0, 2, 107);
+@media screen and (max-width: 480px) {
+  #navbar {
+    height: 20vh;
+  }
 }
 
-.info {
-  font-size: 1em;
+body { margin: 0 }
+
+.nav-content {
+    background-color: #d56b0d;
+    height: 50%;
 }
 
-.button {
-  border-radius: 8px;
-  padding: 5px 5px;
-  border: 1px solid #aaa;
-  background: white;
+.page {
+  display: flex;
+  padding-top: 30px;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+}
+
+.title {
+    font-family: 'Inter', sans-serif;
+    color: white;
+    font-size:200%;
+    font-weight: bolder;
+    padding-left: 5%;
+}
+
+.logout {
+    background: none;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    color: white;
+    font-size:100%;
+    font-weight: bolder;
+    text-align: right;
+    padding-right: 3%;
+}
+
+.logout:hover{
+    color: #FF872B;
+    cursor: pointer;
+}
+
+.addTask {
+  border-radius: 30px;
+  border:none;
+  padding: 12px 20px;
+  background: #022539;
   cursor: pointer;
-  font-family: "Mitr", sans-serif;
-  font-size: 1em;
+  font-family: 'Inter', sans-serif;
+  font-size: 85%;
+  text-align: center;
+  width: fit-content;
+  color: white;
+}
+
+.addTask:hover {
+  background: #1C7690;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1C7690;
+  border-radius: 30px;
+  width: 70%;
+  height: 65px;
+  font-family: 'Inter', sans-serif;
+  color: white;
+}
+
+.checkTask{
+  display: flex;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  padding: 15px 15px;
+  margin-left: 20px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
   text-align: center;
   width: fit-content;
 }
-.button:hover {
-  background: rgb(255, 200, 105);
-  color: white;
-}
-.logout-button:hover {
-  background: rgb(204, 19, 19);
-  color: white;
-}
-.change-page-button:hover {
-  background: rgb(94, 127, 236);
-  color: white;
+
+.checkTask:hover {
+  background: #F0A830;
 }
 
-.main-table {
-  margin: 10px 0;
-  padding: 0;
-  width: 100%;
-  background: #eee;
-  border-radius: 8px;
-  box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
-  border-collapse: collapse;
-  overflow: hidden;
-}
-.main-table > thead {
-  background: #555;
-  color: white;
-}
-.main-table > thead > tr > th {
-  text-align: left;
-}
-.main-table td,
-.main-table th {
-  padding: 5px 10px;
-  font-size: 1em;
-}
-.main-table input,
-.main-table select,
-#name-to-add-2{
-  padding: 5px 10px;
-  border-radius: 8px;
-  border: 1px solid #aaa;
-  font-family: "Mitr", sans-serif;
-  font-size: 1em;
-}
-.main-table button {
-  border-radius: 8px;
-  padding: 5px 10px;
-  border: 1px solid #aaa;
-  background: white;
-  width: 60px;
-  cursor: pointer;
-  font-family: "Mitr", sans-serif;
-  font-size: 1em;
-}
-.main-table button:hover {
-  background: rgb(255, 200, 105);
-  color: white;
-}
-
-#delete-button{
-  border-radius: 8px;
-  padding: 5px 10px;
-  border: 1px solid #aaa;
-  background: white;
-  width: 60px;
-  cursor: pointer;
-  font-family: "Mitr", sans-serif;
-  font-size: 1em;
-}
-#delete-button:hover {
-  background: rgb(255, 200, 105);
-  color: white;
+.section-right{
+  text-align: right;
 }
