@@ -9,10 +9,12 @@
 </head>
 <body>
     <div id="navbar">
-        <div class="title"><span style="color: #FF872B;">To Do </span>List</div>
+        <div class="title">
+            <button id="close-sidebar"> x </button>
+            <button id="hamburger"><img src="./img/icon _hamburger menu.png" alt="hamburger" height="25px" width="30px"></button>
+            <span style="color: #FF872B;"> To Do </span>List</div>
         <button class="logout">Log Out</button>
     </div>
-    
     <div class = "page">
         <button class="addTask" onclick="showAddTask()">Add Task</button>
         <script>
@@ -43,19 +45,53 @@
             </select>
             <input class = "inputNote" type="text" id = "note" placeholder="Note"></input>
             <input class = "inputText" type="text" id = "link"  placeholder="Link"></input>
-            <button class = "add">Add</button>
+            <button class = "add" id = "addTaskButton">Add</button>
         </div>
+
+        
+        <ul id="taskList">
+            <!-- Tasks will be appended here -->
+        </ul>
         <script>
-            for(let i=0;i<10;i++){
-                document.write(
-                    `<div class = "task">
+            const taskInput = document.getElementById('title');
+            const taskDueDate = document.getElementById('dueDate');
+            const addTaskButton = document.getElementById('addTaskButton');
+            const taskList = document.getElementById('taskList');
+        
+            addTaskButton.addEventListener('click', () => {
+              if (taskInput.value.trim() === '') return;
+              if (taskDueDate.value.trim() === '') return;
+              const listItem = document.createElement('div');
+              listItem.className = "task";
+              let i = taskList.childElementCount;
+              listItem.innerHTML= `
                         <button class = "check-task" onclick = "checkTask(${i})">
                             <div id = "checkMark${i}" class = "checkMark"></div>
                         </button>
-                        <span id="taskName${i}" >task  ${i}</span>
-                        <span id="taskDueDate"> 19 Jan 2020</span>
-                    </div>`
-                )
+                        <span id="taskName${i}" >${taskInput.value}</span>
+                        <span id="taskDueDate${i}" class = "taskDueDate">${taskDueDate.value}</span>
+                    `
+              taskList.appendChild(listItem);
+              taskInput.value = '';
+            });
+        </script>
+        <script>
+            const hamburger = document.getElementById("hamburger");
+            const closeSidebar = document.getElementById("close-sidebar");
+            const sidebar = document.getElementById("sidebar");
+            const pagecover = document.getElementById("pagecover");
+            hamburger.addEventListener("click",()=>{
+                sidebar.style.visibility = "visible";
+                pagecover.style.visibility = "hidden";
+                sidebar.style.display = "flex";
+                pagecover.style.display = "none";
+            })
+            closeSidebar.addEventListener("click",()=>{
+                sidebar.style.display = "none";
+                pagecover.style.display = "flex";
+            })
+        </script>
+        <script>
             function checkTask(idx){
                 let x = document.getElementById("checkMark"+idx);
                 let y = document.getElementById("taskName"+idx);
@@ -68,15 +104,17 @@
                     y.style.textDecoration = "none";
                 }
             }
-            }
+            
         </script>
+        <div class="pagecover">  
+        </div>
         <div class="categoryBox">
             <script>
                 for(let i=0;i<category.length;i++)
                     document.write(`<button id = "category">${category[i]}</button>`)
             </script>
             <button class="addCategory">+</button>
-        </div>        
+        </div>     
     </div>
 </body>
 </html>
