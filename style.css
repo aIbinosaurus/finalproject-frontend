@@ -325,6 +325,19 @@ option{
   
 }
 
+#deleteButton {
+  background-color: #FCEBB7;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 20px;
+  border: none;
+}
+
+#deleteButton:hover {
+  cursor: pointer;
+  background-color: #FFB489;
+}
+
 @media screen and (max-width: 768px) {
   #navbar {
     height: 80px;

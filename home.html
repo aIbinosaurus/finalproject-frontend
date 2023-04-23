@@ -47,7 +47,8 @@
             <input class = "inputText" type="text" id = "link"  placeholder="Link"></input>
             <button class = "add" id = "addTaskButton">Add</button>
         </div>
-
+        <!-- Just create but did't add any logic or position -->
+        <button id = 'deleteButton'><img src="./img/image-removebg-preview 1.png" alt="bin"></button>
         
         <ul id="taskList">
             <!-- Tasks will be appended here -->
@@ -57,6 +58,7 @@
             const taskDueDate = document.getElementById('dueDate');
             const addTaskButton = document.getElementById('addTaskButton');
             const taskList = document.getElementById('taskList');
+            const deleteButton = document.getElementById('deleteButton')
         
             addTaskButton.addEventListener('click', () => {
               if (taskInput.value.trim() === '') return;
@@ -75,35 +77,6 @@
               taskInput.value = '';
             });
         </script>
-
-        <!-- <script>
-            const hamburger = document.getElementById("hamburger");
-            const closeSidebar = document.getElementById("close-sidebar");
-            const sidebar = document.getElementById("categoryBox");
-            const pagecover = document.getElementById("pagecover");
-            const logout = document.getElementById("logout");
-            // sidebar.style.display = "none";
-            // pagecover.style.display = "flex";
-            hamburger.addEventListener("click",()=>{
-                // alert(logout)
-                alert(pagecover)
-
-                alert(sidebar.id)
-                alert(sidebar.style.display)
-                alert(sidebar.style.visibility)
-                sidebar.style.visibility = "visible";
-                pagecover.style.visibility = "hidden";
-                sidebar.style.display = "block";
-                pagecover.style.display = "none";
-                
-            })
-            closeSidebar.addEventListener("click",()=>{
-                alert(sidebar.style.display)
-                alert(sidebar.style.visibility)
-                sidebar.style.display = "none";
-                pagecover.style.display = "flex";
-            })
-        </script> -->
         <script>
             function checkTask(idx){
                 let x = document.getElementById("checkMark"+idx);
@@ -133,9 +106,6 @@
             const closeSidebar = document.getElementById("close-sidebar");
             const sidebar = document.getElementById("categoryBox");
             const pagecover = document.getElementById("pagecover");
-            const logout = document.getElementById("logout");
-            // sidebar.style.display = "none";
-            // pagecover.style.display = "flex";
             hamburger.addEventListener("click",()=>{
                 sidebar.style.visibility = "visible";
                 pagecover.style.visibility = "visible";
@@ -148,7 +118,11 @@
                 closeSidebar.style.visibility = "hidden";
                 hamburger.style.visibility = "visible";
             })
-        </script>     
+        </script>
+
+        <script>
+
+        </script>
     </div>
 </body>
 </html>
