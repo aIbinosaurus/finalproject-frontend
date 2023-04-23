@@ -228,7 +228,7 @@ option{
   margin-right: 20px;
 }
 
-.categoryBox{
+#categoryBox{
   /* background-color: #d56b0d; */
   display: flex;
   position: fixed;
@@ -299,7 +299,7 @@ option{
   cursor: pointer;
 }
 
-.pagecover {
+#pagecover {
   background-color: #2A2A2A;
   border:none;
   opacity: 50%;
@@ -317,8 +317,7 @@ option{
   padding-right: 10px;
   position: fixed;
   top: 6px;
-  /* left: 15px; */
-  left: 40px;
+  left: 15px;
   font-size: 50px;
   color: #EA7011;
   cursor: pointer;
@@ -330,7 +329,7 @@ option{
   #navbar {
     height: 80px;
   }
-  .categoryBox {
+  #categoryBox {
     background-color: #093753;
     top: 80px;
     align-items: center;
@@ -338,9 +337,6 @@ option{
     visibility: hidden;
   }
   #hamburger {
-    visibility: visible;
-  }
-  .pagecover {
     visibility: visible;
   }
   #category{

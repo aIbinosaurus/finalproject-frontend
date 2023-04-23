@@ -13,7 +13,7 @@
             <button id="close-sidebar"> x </button>
             <button id="hamburger"><img src="./img/icon _hamburger menu.png" alt="hamburger" height="25px" width="30px"></button>
             <span style="color: #FF872B;"> To Do </span>List</div>
-        <button class="logout">Log Out</button>
+        <button class="logout" id="logout">Log Out</button>
     </div>
     <div class = "page">
         <button class="addTask" onclick="showAddTask()">Add Task</button>
@@ -75,22 +75,35 @@
               taskInput.value = '';
             });
         </script>
-        <script>
+
+        <!-- <script>
             const hamburger = document.getElementById("hamburger");
             const closeSidebar = document.getElementById("close-sidebar");
-            const sidebar = document.getElementById("sidebar");
+            const sidebar = document.getElementById("categoryBox");
             const pagecover = document.getElementById("pagecover");
+            const logout = document.getElementById("logout");
+            // sidebar.style.display = "none";
+            // pagecover.style.display = "flex";
             hamburger.addEventListener("click",()=>{
+                // alert(logout)
+                alert(pagecover)
+
+                alert(sidebar.id)
+                alert(sidebar.style.display)
+                alert(sidebar.style.visibility)
                 sidebar.style.visibility = "visible";
                 pagecover.style.visibility = "hidden";
-                sidebar.style.display = "flex";
+                sidebar.style.display = "block";
                 pagecover.style.display = "none";
+                
             })
             closeSidebar.addEventListener("click",()=>{
+                alert(sidebar.style.display)
+                alert(sidebar.style.visibility)
                 sidebar.style.display = "none";
                 pagecover.style.display = "flex";
             })
-        </script>
+        </script> -->
         <script>
             function checkTask(idx){
                 let x = document.getElementById("checkMark"+idx);
@@ -106,15 +119,36 @@
             }
             
         </script>
-        <div class="pagecover">  
+        <div id="pagecover">  
         </div>
-        <div class="categoryBox">
+        <div id="categoryBox">
             <script>
                 for(let i=0;i<category.length;i++)
                     document.write(`<button id = "category">${category[i]}</button>`)
             </script>
             <button class="addCategory">+</button>
-        </div>     
+        </div>
+        <script>
+            const hamburger = document.getElementById("hamburger");
+            const closeSidebar = document.getElementById("close-sidebar");
+            const sidebar = document.getElementById("categoryBox");
+            const pagecover = document.getElementById("pagecover");
+            const logout = document.getElementById("logout");
+            // sidebar.style.display = "none";
+            // pagecover.style.display = "flex";
+            hamburger.addEventListener("click",()=>{
+                sidebar.style.visibility = "visible";
+                pagecover.style.visibility = "visible";
+                hamburger.style.visibility = "hidden";
+                closeSidebar.style.visibility = "visible";
+            })
+            closeSidebar.addEventListener("click",()=>{
+                sidebar.style.visibility = "hidden";
+                pagecover.style.visibility = "hidden";
+                closeSidebar.style.visibility = "hidden";
+                hamburger.style.visibility = "visible";
+            })
+        </script>     
     </div>
 </body>
 </html>
