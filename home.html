@@ -17,7 +17,7 @@
         <button class="addTask" onclick="showAddTask()">Add Task</button>
         <script>
             function showAddTask(){
-                var x = document.getElementById("addTaskBox");
+                let x = document.getElementById("addTaskBox");
                 if (x.style.display == "none") {
                     x.style.display = "flex";
                 } else {
@@ -28,26 +28,39 @@
         <div id = "addTaskBox">
             <div class="title-and-date">
                 <input class = "inputText" type="text" id = "title" placeholder="Title" required></input>
-                <input class = "inputText" type="text" id = "due-date" placeholder="Due Date" required></input>
+                <input class = "inputDate" type="date" id = "dueDate" required></input>
             </div>
-            <input class = "inputText" type="text" id = "select-category" placeholder="Category" required></input>
+            <select name="category" id = "selectCategory">
+                <option value = "">---Category---</option>
+                <script>
+                    const category = ["assignment","homework"];
+                    for(let i=0;i<category.length;i++){
+                        document.write(
+                            '<option value="category">'+category[i]+'</option>'
+                        )
+                    }
+                </script>
+            </select>
             <input class = "inputNote" type="text" id = "note" placeholder="Note"></input>
             <input class = "inputText" type="text" id = "link"  placeholder="Link"></input>
             <button class = "add">Add</button>
         </div>
         <script>
-            for(var i=0;i<10;i++){
+            for(let i=0;i<10;i++){
                 document.write(
-                    '<div class = "task">'+
-                        '<button class = "check-task" onclick = "checkTask()"><div id = "checkMark" + i></div></button>'+
-                        '<span id="taskName" >'+"task " + i +'</span>'+
-                        '<span id="taskDueDate" class="section-right"> 19 Jan 2020</span>'+
-                    '</div>'
+                    `<div class = "task">
+                        <button class = "check-task" onclick = "checkTask(${i})">
+                            <div id = "checkMark${i}" class = "checkMark"></div>
+                        </button>
+                        <span id="taskName${i}" >task  ${i}</span>
+                        <span id="taskDueDate"> 19 Jan 2020</span>
+                    </div>`
                 )
-            function checkTask(){
-                var x = document.getElementById("checkMark");
-                var y = document.getElementById("taskName");
-                if (x.style.display == "none") {
+            function checkTask(idx){
+                let x = document.getElementById("checkMark"+idx);
+                let y = document.getElementById("taskName"+idx);
+                console.log(x.style.display);
+                if (x.style.display != "flex" || x.style.display == null) {
                     x.style.display = "flex";
                     y.style.textDecoration = "line-through";
                 } else {
@@ -59,12 +72,11 @@
         </script>
         <div class="categoryBox">
             <script>
-                for(var i=0;i<3;i++)
-                    document.write('<button class = "category">Assignment</button>')
+                for(let i=0;i<category.length;i++)
+                    document.write(`<button id = "category">${category[i]}</button>`)
             </script>
             <button class="addCategory">+</button>
-        </div>
-        
+        </div>        
     </div>
 </body>
 </html>
