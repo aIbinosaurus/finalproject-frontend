@@ -39,17 +39,20 @@
             for(var i=0;i<10;i++){
                 document.write(
                     '<div class = "task">'+
-                        '<button class = "check-task" onclick = "checkTask()"><div id = "checkMark"></div></button>'+
-                        '<span id="task-name" >Group Work Preparation</span>'+
-                        '<span id="task-due-date" class="section-right"> 19 Jan 2020</span>'+
+                        '<button class = "check-task" onclick = "checkTask()"><div id = "checkMark" + i></div></button>'+
+                        '<span id="taskName" >'+"task " + i +'</span>'+
+                        '<span id="taskDueDate" class="section-right"> 19 Jan 2020</span>'+
                     '</div>'
                 )
             function checkTask(){
                 var x = document.getElementById("checkMark");
+                var y = document.getElementById("taskName");
                 if (x.style.display == "none") {
                     x.style.display = "flex";
+                    y.style.textDecoration = "line-through";
                 } else {
                     x.style.display = "none";
+                    y.style.textDecoration = "none";
                 }
             }
             }
