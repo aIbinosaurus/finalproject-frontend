@@ -65,6 +65,7 @@ body { margin: 0 }
   flex-direction: column;
   
 }
+
 .addTask {
   border-radius: 30px;
   border:none;
@@ -82,6 +83,66 @@ body { margin: 0 }
   background: #1C7690;
 }
 
+#addTaskBox{
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+  width: fit-content;
+  height: 388px;
+  gap:10px;
+  padding:20px;
+  border-radius: 10px;
+  align-items: center;
+  background: #093753;
+  height: fit-content;
+}
+
+.title-and-date{
+  display: flex;
+  flex-direction: row;
+  gap:10px;
+}
+
+.inputText{
+  display: flex;
+  width: 180px;
+  height: 20px;
+  padding:5px;
+  border: none;
+  border-radius: 10px;
+  background: #F5F5F5;
+}
+
+.inputNote{
+  display: flex;
+  width: 300px;
+  height: 156px;
+  border: none;
+  border-radius: 10px;
+  background: #F5F5F5;
+}
+
+.add{
+  display: flex;
+  height: 25px;
+  width:50px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  background: #F5F5F5;
+  font-family: 'Inter', sans-serif;
+  font-weight: 200;
+  font-size: 80%;
+  color:#4D4C4C;
+}
+
+.add:hover{
+  background-color: #022539;
+  cursor: pointer;
+}
+
 .task {
   display: flex;
   align-items: center;
@@ -96,24 +157,37 @@ body { margin: 0 }
 }
 .task:hover{
   background: #022539;
+  color: white;
   cursor: pointer;
 }
 
-.checkTask{
-  display: flex;
+.check-task{
   border-radius: 50%;
   border: none;
   background: white;
-  padding: 15px 15px;
+  width:30px;
+  height:30px;
   margin-left: 20px;
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  text-align: center;
-  width: fit-content;
 }
 
-.checkTask:hover {
+.check-task:hover {
   background: #F0A830;
+}
+
+#checkMark{
+  display: none;
+  border-radius: 50%;
+  border: none;
+  background: #62B01E;
+  width:30px;
+  height:30px;
+  margin-left:-6px;
+  margin-top: -1px;
+}
+
+#checkMark:hover{
+  background: red;
 }
 
 .categoryBox{
@@ -122,9 +196,9 @@ body { margin: 0 }
   padding:20px;
   top:10vh;
   left:0%;
+  width:20%;
   box-sizing: content-box;
   height:fit-content;
-  width:20%;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;

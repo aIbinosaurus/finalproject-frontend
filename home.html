@@ -14,16 +14,44 @@
     </div>
     
     <div class = "page">
-        <button class="addTask">Add Task</button>
+        <button class="addTask" onclick="showAddTask()">Add Task</button>
+        <script>
+            function showAddTask(){
+                var x = document.getElementById("addTaskBox");
+                if (x.style.display == "none") {
+                    x.style.display = "flex";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+        </script>
+        <div id = "addTaskBox">
+            <div class="title-and-date">
+                <input class = "inputText" type="text" id = "title" placeholder="Title" required></input>
+                <input class = "inputText" type="text" id = "due-date" placeholder="Due Date" required></input>
+            </div>
+            <input class = "inputText" type="text" id = "select-category" placeholder="Category" required></input>
+            <input class = "inputNote" type="text" id = "note" placeholder="Note"></input>
+            <input class = "inputText" type="text" id = "link"  placeholder="Link"></input>
+            <button class = "add">Add</button>
+        </div>
         <script>
             for(var i=0;i<10;i++){
                 document.write(
                     '<div class = "task">'+
-                        '<button class = "checkTask"></button>'+
+                        '<button class = "check-task" onclick = "checkTask()"><div id = "checkMark"></div></button>'+
                         '<span id="task-name" >Group Work Preparation</span>'+
                         '<span id="task-due-date" class="section-right"> 19 Jan 2020</span>'+
                     '</div>'
                 )
+            function checkTask(){
+                var x = document.getElementById("checkMark");
+                if (x.style.display == "none") {
+                    x.style.display = "flex";
+                } else {
+                    x.style.display = "none";
+                }
+            }
             }
         </script>
         <div class="categoryBox">
@@ -33,6 +61,7 @@
             </script>
             <button class="addCategory">+</button>
         </div>
+        
     </div>
 </body>
 </html>
