@@ -106,18 +106,38 @@
             const closeSidebar = document.getElementById("close-sidebar");
             const sidebar = document.getElementById("categoryBox");
             const pagecover = document.getElementById("pagecover");
-            hamburger.addEventListener("click",()=>{
-                sidebar.style.visibility = "visible";
-                pagecover.style.visibility = "visible";
-                hamburger.style.visibility = "hidden";
-                closeSidebar.style.visibility = "visible";
-            })
-            closeSidebar.addEventListener("click",()=>{
-                sidebar.style.visibility = "hidden";
-                pagecover.style.visibility = "hidden";
-                closeSidebar.style.visibility = "hidden";
-                hamburger.style.visibility = "visible";
-            })
+            
+            window.addEventListener('resize', () => {
+                const screenWidth = window.innerWidth;
+                console.log(`Screen width is ${screenWidth}px.`);
+                if(screenWidth > 768) {
+                    hamburger.style.visibility = "hidden";
+                    sidebar.style.visibility = "visible";
+                    pagecover.style.visibility = "hidden";
+                    closeSidebar.style.visibility = "hidden";
+                }
+                else{
+                    hamburger.style.visibility = "visible";
+                    sidebar.style.visibility = "hidden";
+                    pagecover.style.visibility = "hidden";
+                    closeSidebar.style.visibility = "hidden";
+                    hamburger.addEventListener("click",()=>{
+                        console.log('555555555')
+                        hamburger.style.visibility = "hidden";
+                        sidebar.style.visibility = "visible";
+                        pagecover.style.visibility = "visible";
+                        closeSidebar.style.visibility = "visible";
+                    });
+                    closeSidebar.addEventListener("click",()=>{
+                        hamburger.style.visibility = "visible";
+                        sidebar.style.visibility = "hidden";
+                        pagecover.style.visibility = "hidden";
+                        closeSidebar.style.visibility = "hidden";
+                    });
+                }
+            });
+            
+            
         </script>
 
         <script>
