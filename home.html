@@ -43,7 +43,7 @@
                     }
                 </script>
             </select>
-            <input class = "inputNote" type="text" id = "note" placeholder="Note"></input>
+            <textarea class = "inputNote" id = "note" placeholder="Note"></textarea>
             <input class = "inputText" type="text" id = "link"  placeholder="Link"></input>
             <button class = "add" id = "addTaskButton">Add</button>
         </div>
@@ -71,14 +71,15 @@
               note.className = "note";
               let i = taskList.childElementCount;
               note.innerHTML=`
-                        <div class = "note-text"> Note : ${taskNote.value}</div>
+                        <div class = "note-text">Note</div>
+                        <div class = "input-note-text"> ${taskNote.value} </div>
                         <a class = "link-text" href="${taskLink.value}">Link to ${taskInput.value}</a>
                     `
               listItem.innerHTML= `
                         <button class = "check-task" onclick = "checkTask(${i})">
                             <div id = "checkMark${i}" class = "checkMark"></div>
                         </button>
-                        <span id="taskName${i}" >${taskInput.value}</span>
+                        <span id="taskName${i}" class="taskName">${taskInput.value}</span>
                         <span id="taskDueDate${i}" class = "taskDueDate">${taskDueDate.value}</span>
                     `
               taskList.appendChild(listItem);

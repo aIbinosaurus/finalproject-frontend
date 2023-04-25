@@ -224,6 +224,12 @@ option{
   text-decoration: none;
 }
 
+.taskName{
+  padding-left: 40px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+}
+
 .taskDueDate{
   margin-left: auto;
   margin-right: 20px;
@@ -352,8 +358,17 @@ option{
 .note-text {
   position: absolute;
   font-family: 'Inter', sans-serif;
+  top: 20px;
+  left: 30px;
+  color: white;
+  text-decoration: underline;
+}
+
+.input-note-text {
+  position: absolute;
+  font-family: 'Inter', sans-serif;
   top: 40px;
-  left: 120px;
+  left: 110px;
   color: white;
 }
 
