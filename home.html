@@ -70,11 +70,18 @@
               listItem.className = "task";
               note.className = "note";
               let i = taskList.childElementCount;
-              note.innerHTML=`
-                        <div class = "note-text">Note</div>
-                        <div class = "input-note-text"> ${taskNote.value} </div>
-                        <a class = "link-text" href="${taskLink.value}">Link to ${taskInput.value}</a>
-                    `
+              if(taskLink.value != ''){
+                note.innerHTML=`
+                            <div class = "note-text">Note</div>
+                            <div class = "input-note-text"> ${taskNote.value} </div>
+                            <a class = "link-text" href="${taskLink.value}">Link to ${taskInput.value}</a>
+                        `
+              } else{
+                note.innerHTML=`
+                            <div class = "note-text" style= "height : 120 ";>Note</div>
+                            <div class = "input-note-text"> ${taskNote.value} </div>
+                        `
+              }
               listItem.innerHTML= `
                         <button class = "check-task" onclick = "checkTask(${i})">
                             <div id = "checkMark${i}" class = "checkMark"></div>
