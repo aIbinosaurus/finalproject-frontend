@@ -56,6 +56,8 @@
         <script>
             const taskInput = document.getElementById('title');
             const taskDueDate = document.getElementById('dueDate');
+            const taskNote = document.getElementById('note');
+            const taskLink = document.getElementById('link')
             const addTaskButton = document.getElementById('addTaskButton');
             const taskList = document.getElementById('taskList');
             const deleteButton = document.getElementById('deleteButton')
@@ -63,9 +65,15 @@
             addTaskButton.addEventListener('click', () => {
               if (taskInput.value.trim() === '') return;
               if (taskDueDate.value.trim() === '') return;
-              const listItem = document.createElement('div');
+              const listItem = document.createElement('button');
+              const note = document.createElement('div');
               listItem.className = "task";
+              note.className = "note";
               let i = taskList.childElementCount;
+              note.innerHTML=`
+                        <div class = "note-text"> Note : ${taskNote.value}</div>
+                        <a class = "link-text" href="${taskLink.value}">Link to ${taskInput.value}</a>
+                    `
               listItem.innerHTML= `
                         <button class = "check-task" onclick = "checkTask(${i})">
                             <div id = "checkMark${i}" class = "checkMark"></div>
@@ -74,7 +82,17 @@
                         <span id="taskDueDate${i}" class = "taskDueDate">${taskDueDate.value}</span>
                     `
               taskList.appendChild(listItem);
+              taskList.appendChild(note);
               taskInput.value = '';
+              listItem.addEventListener('click', () => {
+                console.log(note.style.display);
+                if(note.style.display != 'flex' || note.style.display == null) {
+                    note.style.display = 'flex';
+                } else {
+                    note.style.display = 'none';
+                }
+
+              });
             });
         </script>
         <script>

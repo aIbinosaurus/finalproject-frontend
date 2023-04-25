@@ -180,6 +180,7 @@ option{
   height: 65px;
   font-family: 'Inter', sans-serif;
   color: white;
+  border: none;
 }
 .task:hover{
   transition: 0.2s;
@@ -336,6 +337,39 @@ option{
 #deleteButton:hover {
   cursor: pointer;
   background-color: #FFB489;
+}
+
+.note {
+  display: flex;
+  position: relative;
+  background-color: #1C7690;
+  border-radius: 30px;
+  width: 100%;
+  height: 150px;
+  display: none;
+}
+
+.note-text {
+  position: absolute;
+  font-family: 'Inter', sans-serif;
+  top: 40px;
+  left: 120px;
+  color: white;
+}
+
+.link-text {
+  position: absolute;
+  font-family: 'Inter', sans-serif;
+  left: 50%;
+  top: 90px;
+  transform: translateX(-50%);
+  color: #FCEBB7;
+  text-decoration: underline;
+}
+
+.link-text:hover {
+  cursor: pointer;
+  color: #F0A830;
 }
 
 @media screen and (max-width: 768px) {
