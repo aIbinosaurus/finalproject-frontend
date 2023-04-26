@@ -332,15 +332,16 @@ option{
   
 }
 
-#deleteButton {
+.deleteButton {
   background-color: #FCEBB7;
   width: fit-content;
   height: fit-content;
   border-radius: 20px;
   border: none;
+  visibility: hidden;
 }
 
-#deleteButton:hover {
+.deleteButton:hover {
   cursor: pointer;
   background-color: #FFB489;
 }
@@ -385,6 +386,16 @@ option{
 .link-text:hover {
   cursor: pointer;
   color: #F0A830;
+}
+
+.oneRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110%;
+  gap:10px;
+  list-style-type: none;
+  padding-inline-start: 10%;
 }
 
 @media screen and (max-width: 768px) {

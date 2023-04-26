@@ -47,8 +47,6 @@
             <input class = "inputText" type="text" id = "link"  placeholder="Link"></input>
             <button class = "add" id = "addTaskButton">Add</button>
         </div>
-        <!-- Just create but did't add any logic or position -->
-        <button id = 'deleteButton'><img src="./img/image-removebg-preview 1.png" alt="bin"></button>
         
         <ul id="taskList">
             <!-- Tasks will be appended here -->
@@ -60,16 +58,26 @@
             const taskLink = document.getElementById('link')
             const addTaskButton = document.getElementById('addTaskButton');
             const taskList = document.getElementById('taskList');
-            const deleteButton = document.getElementById('deleteButton')
         
             addTaskButton.addEventListener('click', () => {
               if (taskInput.value.trim() === '') return;
               if (taskDueDate.value.trim() === '') return;
-              const listItem = document.createElement('button');
+              const oneRow = document.createElement('div');
               const note = document.createElement('div');
-              listItem.className = "task";
+              const taskItem = document.createElement('button');
+              const bin = document.createElement('button');
               note.className = "note";
+              taskItem.className = "task";
+              bin.className = "deleteButton";
               let i = taskList.childElementCount;
+              oneRow.id = `oneRow${i}`
+              oneRow.className = "oneRow";
+              note.id = `note${i}`
+              taskItem.id = `task${i}`
+              bin.id = `bin${i}`
+              bin.innerHTML=`
+                    <img src="./img/image-removebg-preview 1.png" alt="bin">
+                    `
               if(taskLink.value != ''){
                 note.innerHTML=`
                             <div class = "note-text">Note</div>
@@ -82,32 +90,32 @@
                             <div class = "input-note-text"> ${taskNote.value} </div>
                         `
               }
-              listItem.innerHTML= `
-                        <button class = "check-task" onclick = "checkTask(${i})">
+              taskItem.innerHTML = `
+                        <button class = "check-task" onclick = "checkTask(event,${i})">
                             <div id = "checkMark${i}" class = "checkMark"></div>
                         </button>
                         <span id="taskName${i}" class="taskName">${taskInput.value}</span>
                         <span id="taskDueDate${i}" class = "taskDueDate">${taskDueDate.value}</span>
                     `
-              taskList.appendChild(listItem);
+                oneRow.appendChild(taskItem);
+                oneRow.appendChild(bin); 
+              taskList.appendChild(oneRow);
               taskList.appendChild(note);
               taskInput.value = '';
-              listItem.addEventListener('click', () => {
-                console.log(note.style.display);
-                if(note.style.display != 'flex' || note.style.display == null) {
-                    note.style.display = 'flex';
-                } else {
-                    note.style.display = 'none';
-                }
-
+              taskItem.addEventListener('click', () => {
+                clickTask(i);
+              });
+              bin.addEventListener("click",() => {
+                deleteTask(i);
               });
             });
         </script>
         <script>
-            function checkTask(idx){
+            function checkTask(event,idx){
                 let x = document.getElementById("checkMark"+idx);
                 let y = document.getElementById("taskName"+idx);
                 console.log(x.style.display);
+                event.stopPropagation();
                 if (x.style.display != "flex" || x.style.display == null) {
                     x.style.display = "flex";
                     y.style.textDecoration = "line-through";
@@ -116,7 +124,25 @@
                     y.style.textDecoration = "none";
                 }
             }
-            
+            function clickTask(idx){
+                let note = document.getElementById("note"+idx);
+                let bin = document.getElementById("bin"+idx);
+                console.log(bin.style.display)
+                if(note.style.display != 'flex' || note.style.display == null) {
+                    note.style.display = 'flex';
+                    bin.style.visibility = 'visible';
+                } else {
+                    note.style.display = 'none';
+                    bin.style.visibility = 'hidden';
+                }
+            }
+
+            function deleteTask(idx){
+                let oneRow = document.getElementById("oneRow"+idx);
+                let note = document.getElementById("note"+idx);
+                oneRow.remove();
+                note.remove();
+            }
         </script>
         <div id="pagecover">  
         </div>
@@ -148,7 +174,6 @@
                     pagecover.style.visibility = "hidden";
                     closeSidebar.style.visibility = "hidden";
                     hamburger.addEventListener("click",()=>{
-                        console.log('555555555')
                         hamburger.style.visibility = "hidden";
                         sidebar.style.visibility = "visible";
                         pagecover.style.visibility = "visible";
