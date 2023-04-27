@@ -219,7 +219,7 @@ option{
   background: red;
 }
 
-#taskName{
+.taskName{
   text-decoration: none;
 }
 

@@ -43,7 +43,7 @@
                     }
                 </script>
             </select>
-            <input class = "inputNote" type="text" id = "note" placeholder="Note"></input>
+            <textarea class = "inputNote" type="text" id = "note" placeholder="Note"></textarea>
             <input class = "inputText" type="text" id = "link"  placeholder="Link"></input>
             <button class = "add" id = "addTaskButton">Add</button>
         </div>
@@ -68,7 +68,7 @@
                         <button class = "check-task" onclick = "checkTask(${i})">
                             <div id = "checkMark${i}" class = "checkMark"></div>
                         </button>
-                        <span id="taskName${i}" >${taskInput.value}</span>
+                        <span id="taskName${i}" class = "taskName">${taskInput.value}</span>
                         <span id="taskDueDate${i}" class = "taskDueDate">${taskDueDate.value}</span>
                     `
               taskList.appendChild(listItem);
