@@ -8,11 +8,22 @@
     <link rel="stylesheet" href="style.css"></link>
 </head>
 <body>
-    <div id="navbar">
+    <div class="navbar">
         <div class="title">
-            <button id="close-sidebar"> x </button>
-            <button id="hamburger"><img src="./img/icon _hamburger menu.png" alt="hamburger" height="25px" width="30px"></button>
-            <span style="color: #FF872B;"> To Do </span>List</div>
+            <span style="color: #FF872B;"> To Do </span><span style="color: black;">List</span>
+        </div>
+        <div id="categoryBox" class = "categoryBox"></div>
+        <script>
+            const categoryBox = document.getElementById('categoryBox');
+            const category = ["Work","Home","School","other"];
+            for(let i=0;i<category.length-1;i++){
+                const categorySidebar = document.createElement('button');
+                categorySidebar.className = "categorySideBar";
+                categorySidebar.innerHTML = category[i];
+                categorySidebar.innerHTML = category[i];
+                categoryBox.appendChild(categorySidebar);
+            }
+        </script>
         <button class="logout" id="logout">Log Out</button>
     </div>
     <div class = "page">
@@ -44,15 +55,13 @@
         <script>
             const addCategory = document.getElementById("addCategory");
             const selectCategory = document.getElementById("selectCategory");
-            const category = ["assignment","homework","other"];
+            
             for(let i=0;i<category.length;i++){
-                document.write(
-                    `<option value=${category[i]}>${category[i]}</option>`
-                )
-                console.log(category[i])
-                // if(category[i]=="other"){
-                // addCategory.style.display="flex";
-            // }
+                const optionCategory = document.createElement('option');
+                optionCategory.innerHTML = category[i];
+                optionCategory.value = category[i];
+                selectCategory.appendChild(optionCategory);
+                console.log(category[i]);
             }
             
             selectCategory.addEventListener("change", function() {
@@ -91,11 +100,23 @@
               const note = document.createElement('div');
               const taskItem = document.createElement('button');
               const bin = document.createElement('button');
+
               if(taskCategory.value == "other"){
-                console.log(newCategory.value);
-                category.push(newCategory.value);
-                let j = category.length-1;
-                selectCategory.innerHTML +=  `<option value=${category[j]}>${category[j]}</option>`;
+                // console.log(newCategory.value);
+                const other = selectCategory.lastChild;
+                selectCategory.removeChild(selectCategory.lastChild);
+                category[category.length-1] = newCategory.value;
+                category.push("other");
+                let j = category.length-2;
+                const optionCategory = document.createElement('option');
+                const categorySidebar = document.createElement('button');
+                optionCategory.innerHTML = category[j];
+                optionCategory.value = category[j];
+                categorySidebar.innerHTML = category[j];
+                categorySidebar.className = "categorySideBar";
+                categoryBox.appendChild(categorySidebar);
+                selectCategory.appendChild(optionCategory);
+                selectCategory.appendChild(other);
                 console.log(category);
               }
               note.className = "note";
@@ -177,13 +198,6 @@
             }
         </script>
         <div id="pagecover">  
-        </div>
-        <div id="categoryBox">
-            <script>
-                for(let i=0;i<category.length;i++)
-                    document.write(`<button id = "category">${category[i]}</button>`)
-            </script>
-            <button class="addCategory" onclick="addCategory(category[i])">+</button>
         </div>
         <script>
             const hamburger = document.getElementById("hamburger");
