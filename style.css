@@ -100,6 +100,28 @@ body { margin: 0 }
   background: #F5F5F5;
 }
 
+.inputCategory{
+  display: none;
+  width: 160px;
+  height: 30px;
+  padding-left: 3%;
+  padding-right: 3%;
+  border: none;
+  border-radius: 10px;
+  background: #F5F5F5;
+}
+
+.inputLink {
+  display: flex;
+  width: 290px;
+  height: 30px;
+  padding-left: 3%;
+  padding-right: 3%;
+  border: none;
+  border-radius: 10px;
+  background: #F5F5F5;
+} 
+
 .inputDate{
   display:flex;
   width: 180px;
@@ -113,7 +135,7 @@ body { margin: 0 }
 
 select{
   display: flex;
-  width: 150px;
+  width: 320px;
   height: 30px;
   border: none;
   border-radius: 10px;

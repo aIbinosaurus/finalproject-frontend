@@ -34,20 +34,43 @@
             </div>
             <select name="category" id = "selectCategory">
                 <option value = "">---Category---</option>
-                <script>
-                    const category = ["assignment","homework"];
-                    for(let i=0;i<category.length;i++){
-                        document.write(
-                            '<option value="category">'+category[i]+'</option>'
-                        )
-                    }
-                </script>
+                <!-- <input class = "inputText" id = "addCategory" placeholder="add category"></input> -->
             </select>
+            <input class = "inputCategory" id = "addCategory" placeholder="add category"></input>
             <textarea class = "inputNote" id = "note" placeholder="Note"></textarea>
-            <input class = "inputText" type="text" id = "link"  placeholder="Link"></input>
+            <input class = "inputLink" type="text" id = "link"  placeholder="Link"></input>
             <button class = "add" id = "addTaskButton">Add</button>
         </div>
-        
+        <script>
+            const addCategory = document.getElementById("addCategory");
+            const selectCategory = document.getElementById("selectCategory");
+            const category = ["assignment","homework","other"];
+            for(let i=0;i<category.length;i++){
+                document.write(
+                    `<option value=${category[i]}>${category[i]}</option>`
+                )
+                console.log(category[i])
+                // if(category[i]=="other"){
+                // addCategory.style.display="flex";
+            // }
+            }
+            
+            selectCategory.addEventListener("change", function() {
+                // console.log(selectCategory.innerHTML);
+                // selectCategory.innerHTML += "<div></div>";
+                if(selectCategory.value == "other")
+                {
+                    addCategory.style.display="flex";
+                    console.log(selectCategory.value);
+                }
+                else{
+                    addCategory.style.display="none";
+                    console.log(selectCategory.value);
+                }
+            });
+            
+            
+        </script>
         <ul id="taskList">
             <!-- Tasks will be appended here -->
         </ul>
@@ -58,6 +81,8 @@
             const taskLink = document.getElementById('link')
             const addTaskButton = document.getElementById('addTaskButton');
             const taskList = document.getElementById('taskList');
+            const taskCategory = document.getElementById('selectCategory');
+            const newCategory = document.getElementById('addCategory');
         
             addTaskButton.addEventListener('click', () => {
               if (taskInput.value.trim() === '') return;
@@ -66,6 +91,13 @@
               const note = document.createElement('div');
               const taskItem = document.createElement('button');
               const bin = document.createElement('button');
+              if(taskCategory.value == "other"){
+                console.log(newCategory.value);
+                category.push(newCategory.value);
+                let j = category.length-1;
+                selectCategory.innerHTML +=  `<option value=${category[j]}>${category[j]}</option>`;
+                console.log(category);
+              }
               note.className = "note";
               taskItem.className = "task";
               bin.className = "deleteButton";
@@ -151,7 +183,7 @@
                 for(let i=0;i<category.length;i++)
                     document.write(`<button id = "category">${category[i]}</button>`)
             </script>
-            <button class="addCategory">+</button>
+            <button class="addCategory" onclick="addCategory(category[i])">+</button>
         </div>
         <script>
             const hamburger = document.getElementById("hamburger");
