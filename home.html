@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDoList</title>
-    <link rel="stylesheet" href="style.css"></link>
+    <link rel="stylesheet" href="style.css">
+    </link>
 </head>
+
 <body>
     <div class="navbar">
         <div class="title">
             <span style="color: #FF872B;"> To Do </span><span style="color: black;">List</span>
         </div>
-        <div id="categoryBox" class = "categoryBox"></div>
+        <div id="categoryBox" class="categoryBox"></div>
         <script>
             const categoryBox = document.getElementById('categoryBox');
-            const category = ["Work","Home","School","other"];
-            for(let i=0;i<category.length-1;i++){
+            const category = ["Work", "Home", "School", "other"];
+            for (let i = 0; i < category.length - 1; i++) {
                 const categorySidebar = document.createElement('button');
                 categorySidebar.className = "categorySideBar";
                 categorySidebar.innerHTML = category[i];
@@ -26,10 +29,10 @@
         </script>
         <button class="logout" id="logout">Log Out</button>
     </div>
-    <div class = "page">
+    <div class="page">
         <button class="addTask" onclick="showAddTask()">Add Task</button>
         <script>
-            function showAddTask(){
+            function showAddTask() {
                 let x = document.getElementById("addTaskBox");
                 if (x.style.display == "none") {
                     x.style.display = "flex";
@@ -38,47 +41,46 @@
                 }
             }
         </script>
-        <div id = "addTaskBox">
+        <div id="addTaskBox">
             <div class="title-and-date">
-                <input class = "inputText" type="text" id = "title" placeholder="Title" required></input>
-                <input class = "inputDate" type="date" id = "dueDate" required></input>
+                <input class="inputText" type="text" id="title" placeholder="Title" required></input>
+                <input class="inputDate" type="date" id="dueDate" required></input>
             </div>
-            <select name="category" id = "selectCategory">
-                <option value = "">---Category---</option>
+            <select name="category" id="selectCategory">
+                <option value="">---Category---</option>
                 <!-- <input class = "inputText" id = "addCategory" placeholder="add category"></input> -->
             </select>
-            <input class = "inputCategory" id = "addCategory" placeholder="add category"></input>
-            <textarea class = "inputNote" id = "note" placeholder="Note"></textarea>
-            <input class = "inputLink" type="text" id = "link"  placeholder="Link"></input>
-            <button class = "add" id = "addTaskButton">Add</button>
+            <input class="inputCategory" id="addCategory" placeholder="add category"></input>
+            <textarea class="inputNote" id="note" placeholder="Note"></textarea>
+            <input class="inputLink" type="text" id="link" placeholder="Link"></input>
+            <button class="add" id="addTaskButton">Add</button>
         </div>
         <script>
             const addCategory = document.getElementById("addCategory");
             const selectCategory = document.getElementById("selectCategory");
-            
-            for(let i=0;i<category.length;i++){
+
+            for (let i = 0; i < category.length; i++) {
                 const optionCategory = document.createElement('option');
                 optionCategory.innerHTML = category[i];
                 optionCategory.value = category[i];
                 selectCategory.appendChild(optionCategory);
                 console.log(category[i]);
             }
-            
-            selectCategory.addEventListener("change", function() {
+
+            selectCategory.addEventListener("change", function () {
                 // console.log(selectCategory.innerHTML);
                 // selectCategory.innerHTML += "<div></div>";
-                if(selectCategory.value == "other")
-                {
-                    addCategory.style.display="flex";
+                if (selectCategory.value == "other") {
+                    addCategory.style.display = "flex";
                     console.log(selectCategory.value);
                 }
-                else{
-                    addCategory.style.display="none";
+                else {
+                    addCategory.style.display = "none";
                     console.log(selectCategory.value);
                 }
             });
-            
-            
+
+
         </script>
         <ul id="taskList">
             <!-- Tasks will be appended here -->
@@ -92,58 +94,58 @@
             const taskList = document.getElementById('taskList');
             const taskCategory = document.getElementById('selectCategory');
             const newCategory = document.getElementById('addCategory');
-        
-            addTaskButton.addEventListener('click', () => {
-              if (taskInput.value.trim() === '') return;
-              if (taskDueDate.value.trim() === '') return;
-              const oneRow = document.createElement('div');
-              const note = document.createElement('div');
-              const taskItem = document.createElement('button');
-              const bin = document.createElement('button');
 
-              if(taskCategory.value == "other"){
-                // console.log(newCategory.value);
-                const other = selectCategory.lastChild;
-                selectCategory.removeChild(selectCategory.lastChild);
-                category[category.length-1] = newCategory.value;
-                category.push("other");
-                let j = category.length-2;
-                const optionCategory = document.createElement('option');
-                const categorySidebar = document.createElement('button');
-                optionCategory.innerHTML = category[j];
-                optionCategory.value = category[j];
-                categorySidebar.innerHTML = category[j];
-                categorySidebar.className = "categorySideBar";
-                categoryBox.appendChild(categorySidebar);
-                selectCategory.appendChild(optionCategory);
-                selectCategory.appendChild(other);
-                console.log(category);
-              }
-              note.className = "note";
-              taskItem.className = "task";
-              bin.className = "deleteButton";
-              let i = taskList.childElementCount;
-              oneRow.id = `oneRow${i}`
-              oneRow.className = "oneRow";
-              note.id = `note${i}`
-              taskItem.id = `task${i}`
-              bin.id = `bin${i}`
-              bin.innerHTML=`
+            addTaskButton.addEventListener('click', () => {
+                if (taskInput.value.trim() === '') return;
+                if (taskDueDate.value.trim() === '') return;
+                const oneRow = document.createElement('div');
+                const note = document.createElement('div');
+                const taskItem = document.createElement('button');
+                const bin = document.createElement('button');
+
+                if (taskCategory.value == "other") {
+                    // console.log(newCategory.value);
+                    const other = selectCategory.lastChild;
+                    selectCategory.removeChild(selectCategory.lastChild);
+                    category[category.length - 1] = newCategory.value;
+                    category.push("other");
+                    let j = category.length - 2;
+                    const optionCategory = document.createElement('option');
+                    const categorySidebar = document.createElement('button');
+                    optionCategory.innerHTML = category[j];
+                    optionCategory.value = category[j];
+                    categorySidebar.innerHTML = category[j];
+                    categorySidebar.className = "categorySideBar";
+                    categoryBox.appendChild(categorySidebar);
+                    selectCategory.appendChild(optionCategory);
+                    selectCategory.appendChild(other);
+                    console.log(category);
+                }
+                note.className = "note";
+                taskItem.className = "task";
+                bin.className = "deleteButton";
+                let i = taskList.childElementCount;
+                oneRow.id = `oneRow${i}`
+                oneRow.className = "oneRow";
+                note.id = `note${i}`
+                taskItem.id = `task${i}`
+                bin.id = `bin${i}`
+                bin.innerHTML = `
                     <img src="./img/image-removebg-preview 1.png" alt="bin">
                     `
-              if(taskLink.value != ''){
-                note.innerHTML=`
+                if (taskLink.value != '') {
+                    note.innerHTML = `
                             <div class = "note-text">Note</div>
                             <div class = "input-note-text"> ${taskNote.value} </div>
                             <a class = "link-text" href="${taskLink.value}">Link to ${taskInput.value}</a>
                         `
-              } else{
-                note.innerHTML=`
+                } else {
+                    note.innerHTML = `
                             <div class = "note-text" style= "height : 120 ";>Note</div>
                             <div class = "input-note-text"> ${taskNote.value} </div>
                         `
-              }
-              taskItem.innerHTML = `
+                }
+                taskItem.innerHTML = `
                         <button class = "check-task" onclick = "checkTask(event,${i})">
                             <div id = "checkMark${i}" class = "checkMark"></div>
                         </button>
@@ -151,22 +153,22 @@
                         <span id="taskDueDate${i}" class = "taskDueDate">${taskDueDate.value}</span>
                     `
                 oneRow.appendChild(taskItem);
-                oneRow.appendChild(bin); 
-              taskList.appendChild(oneRow);
-              taskList.appendChild(note);
-              taskInput.value = '';
-              taskItem.addEventListener('click', () => {
-                clickTask(i);
-              });
-              bin.addEventListener("click",() => {
-                deleteTask(i);
-              });
+                oneRow.appendChild(bin);
+                taskList.appendChild(oneRow);
+                taskList.appendChild(note);
+                taskInput.value = '';
+                taskItem.addEventListener('click', () => {
+                    clickTask(i);
+                });
+                bin.addEventListener("click", () => {
+                    deleteTask(i);
+                });
             });
         </script>
         <script>
-            function checkTask(event,idx){
-                let x = document.getElementById("checkMark"+idx);
-                let y = document.getElementById("taskName"+idx);
+            function checkTask(event, idx) {
+                let x = document.getElementById("checkMark" + idx);
+                let y = document.getElementById("taskName" + idx);
                 console.log(x.style.display);
                 event.stopPropagation();
                 if (x.style.display != "flex" || x.style.display == null) {
@@ -177,11 +179,11 @@
                     y.style.textDecoration = "none";
                 }
             }
-            function clickTask(idx){
-                let note = document.getElementById("note"+idx);
-                let bin = document.getElementById("bin"+idx);
+            function clickTask(idx) {
+                let note = document.getElementById("note" + idx);
+                let bin = document.getElementById("bin" + idx);
                 console.log(bin.style.display)
-                if(note.style.display != 'flex' || note.style.display == null) {
+                if (note.style.display != 'flex' || note.style.display == null) {
                     note.style.display = 'flex';
                     bin.style.visibility = 'visible';
                 } else {
@@ -190,42 +192,42 @@
                 }
             }
 
-            function deleteTask(idx){
-                let oneRow = document.getElementById("oneRow"+idx);
-                let note = document.getElementById("note"+idx);
+            function deleteTask(idx) {
+                let oneRow = document.getElementById("oneRow" + idx);
+                let note = document.getElementById("note" + idx);
                 oneRow.remove();
                 note.remove();
             }
         </script>
-        <div id="pagecover">  
+        <div id="pagecover">
         </div>
         <script>
             const hamburger = document.getElementById("hamburger");
             const closeSidebar = document.getElementById("close-sidebar");
             const sidebar = document.getElementById("categoryBox");
             const pagecover = document.getElementById("pagecover");
-            
+
             window.addEventListener('resize', () => {
                 const screenWidth = window.innerWidth;
                 console.log(`Screen width is ${screenWidth}px.`);
-                if(screenWidth > 768) {
+                if (screenWidth > 768) {
                     hamburger.style.visibility = "hidden";
                     sidebar.style.visibility = "visible";
                     pagecover.style.visibility = "hidden";
                     closeSidebar.style.visibility = "hidden";
                 }
-                else{
+                else {
                     hamburger.style.visibility = "visible";
                     sidebar.style.visibility = "hidden";
                     pagecover.style.visibility = "hidden";
                     closeSidebar.style.visibility = "hidden";
-                    hamburger.addEventListener("click",()=>{
+                    hamburger.addEventListener("click", () => {
                         hamburger.style.visibility = "hidden";
                         sidebar.style.visibility = "visible";
                         pagecover.style.visibility = "visible";
                         closeSidebar.style.visibility = "visible";
                     });
-                    closeSidebar.addEventListener("click",()=>{
+                    closeSidebar.addEventListener("click", () => {
                         hamburger.style.visibility = "visible";
                         sidebar.style.visibility = "hidden";
                         pagecover.style.visibility = "hidden";
@@ -233,8 +235,8 @@
                     });
                 }
             });
-            
-            
+
+
         </script>
 
         <script>
@@ -242,4 +244,5 @@
         </script>
     </div>
 </body>
+
 </html>
