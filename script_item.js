@@ -8,7 +8,7 @@ const taskNote = document.getElementById('note');
 const taskLink = document.getElementById('link')
 const addTaskButton = document.getElementById('addTaskButton');
 const taskCategory = document.getElementById('selectCategory');
-const newCategory = document.getElementById('addCategory');
+const addCategory = document.getElementById('addCategory');
 let loginButton = document.getElementById('login');
 let logoutButton = document.getElementById('logout');
 let itemsData;
@@ -17,26 +17,36 @@ let username = "";
 let assignments = [];
 
 window.onload = async () => {
+
+  // hide add task
+  // const addTask = document.getElementById('addTask');
   let checklLogin = await checkLoginStatus();
   username = await getUserProfile();
-  if(checklLogin){
+  if (checklLogin) {
     isLogin = true;
   }
   showLogin();
   await getAssignmentsFromCV();
   await getAssignmentsFromDB();
   showTask("All");
+  if (username != "") {
+    const loader = document.getElementById('loader');
+    addTask.style.display = "flex";
+    loader.style.display = "none";
+  }
 }
 
-function showLogin(){
+// if login show add task
+function showLogin() {
 
-  if(isLogin){
-    loginButton.style.display="none";
-    logoutButton.style.display="flex";
+  if (isLogin) {
+    loginButton.style.display = "none";
+    logoutButton.style.display = "flex";
   }
-  else{
-    loginButton.style.display="flex";
-    logoutButton.style.display="none";
+  else {
+    loginButton.style.display = "flex";
+    logoutButton.style.display = "none";
+    addTask.style.display = "none";
   }
 }
 
@@ -53,12 +63,13 @@ function showAddTask() {
 async function newTask(title, dueDate, dueTime, category, newNote, link) {
   // console.log("username")
   // console.log(username)
-  if(title=="" || dueDate=="" || dueTime=="" || category=="" || !isLogin || username==""){
+  if (title == "" || dueDate == "" || dueTime == "" || category == "" || !isLogin || username == "") {
     return;
   }
-  const currentDate = new Date(); const timestamp = currentDate. getTime();
+  document.getElementById("addTaskBox").style.display = "none";
+  const currentDate = new Date(); const timestamp = currentDate.getTime();
   let dict = {
-    id:username+timestamp+title,
+    id: username + timestamp + title,
     user: username,
     title: title,
     dueDate: dueDate,
@@ -66,7 +77,8 @@ async function newTask(title, dueDate, dueTime, category, newNote, link) {
     category: category,
     note: newNote,
     link: link,
-    status: false
+    status: false,
+    type: "normal"
   }
   console.log("DICT")
   console.log(dict)
@@ -81,6 +93,17 @@ async function newTask(title, dueDate, dueTime, category, newNote, link) {
     },
     body: JSON.stringify(dict)
   };
+
+  taskInput.value = "";
+  taskDueDate.value = "";
+  taskNote.value = "";
+  taskLink.value = "";
+  taskCategory.value = "";
+  addCategory.value = "";
+  addCategory.style.display = "none";
+  
+
+
   const res = await fetch(`http://${backendIPAddress}/items`, options)
   const data = await res.json();
   console.log("data")
@@ -98,7 +121,7 @@ const getAssignmentsFromDB = async () => {
   console.log("itemsData from DB")
   console.log(itemsData)
   itemsData.map((item) => {
-    if(item.user != username)return;
+    if (item.user != username) return;
     let assignment = {};
     assignment["id"] = item.id;
     assignment["title"] = item.title;
@@ -107,6 +130,7 @@ const getAssignmentsFromDB = async () => {
     assignment["note"] = item.note;
     assignment["link"] = item.link;
     assignment["status"] = item.status;
+    assignment["type"] = item.type;
     assignments.push(assignment);
   })
 };
@@ -123,92 +147,195 @@ const getAssignmentsFromCV = async () => {
   const response = await fetch(`http://${backendIPAddress}/courseville/get_courses`, options);
   const data = await response.json();
   const courses = data.data.student;
-  console.log("courses");
-  console.log(courses);
-  // if(courses.)
+  // console.log(courses);
   await Promise.all(courses.map(async (course) => {
-    let cv_cid = course.cv_cid;
-    let assignments_courses;
-    const response = await fetch(`http://${backendIPAddress}/courseville/get_course_assignments/${cv_cid}`, options);
-    const data = await response.json();
-    assignments_courses = data.data;
-    // console.log(assignments_courses);
-    await Promise.all(assignments_courses.map(async (assignment_course) => {
-      let item_id = assignment_course.itemid;
-      const response = await fetch(`http://${backendIPAddress}/courseville/get_assignment_detail/${item_id}`, options);
+    if (course.semester == 2 && course.year == "2022") {
+      console.log(course.year, course.semester);
+      let cv_cid = course.cv_cid;
+      let assignments_courses;
+      const response = await fetch(`http://${backendIPAddress}/courseville/get_course_assignments/${cv_cid}`, options);
       const data = await response.json();
-      let assignment = {};
-      if (data.data.duetime > time) {
-        assignment["title"] = data.data.title;
-        assignment["dueDate"] = data.data.duedate;
-        assignment["category"] = "Assignment";
-        assignment["dueTime"] = data.data.duetime;
-        assignment["note"] = "";
-        assignment["link"] = `https://www.mycourseville.com/?q=courseville/worksheet/${cv_cid}/${item_id}`;
-        assignment["status"] = false;
-        assignments.push(assignment);
-      }
-    }))
+      assignments_courses = data.data;
+      // console.log(assignments_courses);
+      await Promise.all(assignments_courses.map(async (assignment_course) => {
+        let item_id = assignment_course.itemid;
+        const response = await fetch(`http://${backendIPAddress}/courseville/get_assignment_detail/${item_id}`, options);
+        const data = await response.json();
+        let assignment = {};
+        if (data.data.duetime > time) {
+          assignment["title"] = data.data.title;
+          assignment["dueDate"] = data.data.duedate;
+          assignment["category"] = "Assignment";
+          assignment["dueTime"] = data.data.duetime;
+          assignment["note"] = "";
+          assignment["link"] = `https://www.mycourseville.com/?q=courseville/worksheet/${cv_cid}/${item_id}`;
+          assignment["status"] = false;
+          assignment["type"] = "mcv";
+          assignments.push(assignment);
+        }
+      }))
+    }
   }));
   onLoad = false;
 };
+// if (taskCategory.value == "Other") {
+//     const other = selectCategory.lastChild;
+//     selectCategory.removeChild(selectCategory.lastChild);
+//     category[category.length - 1] = newCategory.value;
+//     category.push("Other");
 
-const showTask = (targetCategory)=> {
+//     let j = category.length - 2;
+//     const optionCategory = document.createElement('option');
+//     const categorySidebar = document.createElement('button');
+//     optionCategory.innerHTML = category[j];
+//     optionCategory.value = category[j];
+//     categorySidebar.innerHTML = category[j];
+//     categorySidebar.className = "categorySideBar";
+//     categoryBox.appendChild(categorySidebar);
+//     selectCategory.appendChild(optionCategory);
+//     selectCategory.appendChild(other);
+//     console.log(category);
+// }
+
+//             const categoryBox = document.getElementById('categoryBox');
+//             const category = ["All","Assignment","Other"];
+//             for (let i = 0; i < category.length - 1; i++) {
+//                 const categorySidebar = document.createElement('button');
+//                 categorySidebar.className = "categorySideBar";
+//                 categorySidebar.innerHTML = category[i];
+//                 categorySidebar.id = category[i];
+//                 categoryBox.appendChild(categorySidebar);
+//                 categorySidebar.addEventListener("click", () => {
+//                     showTask(category[i]);
+//                 });
+//             }
+
+const showTask = (targetCategory) => {
   taskList.innerHTML = "";
+  const category = ["All", "Assignment"];//thissssssss
+  console.log("showTask")
+  console.log(assignments)
+  assignments.sort((a, b) => (a.dueDate < b.dueDate) ? -1 : (a.dueDate > b.dueDate) ? 1 : 0);
   assignments.map((assignment, i) => {
-    if(assignment.category==targetCategory || targetCategory=="All"){
+
+    let ch = 0;
+    for(let i = 0; i < category.length; i++){
+      if(assignment.category == category[i]){
+        ch = 1;
+        break;
+      }
+    }
+    if(ch == 0){
+      if(assignment.category != "Other"){
+        category.push(assignment.category);
+      }
+    }
+    if (assignment.category == targetCategory || targetCategory == "All") {
       const oneRow = document.createElement('div');
-    const note = document.createElement('div');
-    const taskItem = document.createElement('button');
-    const bin = document.createElement('button');
-    note.className = "note";
-    taskItem.className = "task";
-    bin.className = "deleteButton";
-    taskList.className = "taskList";
+      const note = document.createElement('div');
+      const taskItem = document.createElement('button');
+      const bin = document.createElement('button');
+      note.className = "note";
+      if (assignment.type == "mcv") {
+        taskItem.className = "mcvTask";
+      }
+      else {
+        taskItem.className = "task";
+      }
+      bin.className = "deleteButton";
+      taskList.className = "taskList";
 
-    oneRow.id = `oneRow${i}`;
-    oneRow.className = "oneRow";
-    note.id = `note${i}`;
-    taskItem.id = `task${i}`;
-    bin.id = `bin${i}`;
-    bin.innerHTML = `<img src="./img/image-removebg-preview 1.png" alt="bin">`;
+      oneRow.id = `oneRow${i}`;
+      oneRow.className = "oneRow";
+      note.id = `note${i}`;
+      taskItem.id = `task${i}`;
+      bin.id = `bin${i}`;
+      bin.innerHTML = `<img src="./img/image-removebg-preview 1.png" alt="bin">`;
 
-    if (taskLink.value != '') {
-      note.innerHTML = `<div class = "note-text">Note</div>
+      if (assignment.link == "") {
+        note.innerHTML = `<div class = "note-text">Note</div>
+                      <div class = "input-note-text"> ${assignment.note} </div>`;
+      } 
+      else {
+        note.innerHTML = `<div class = "note-text" style= "height : 120 ";>Note</div>
                       <div class = "input-note-text"> ${assignment.note} </div>
                       <a class = "link-text" href="${assignment.link}">Link to ${assignment.title}</a>`;
-    } else {
-      note.innerHTML = `<div class = "note-text" style= "height : 120 ";>Note</div>
-                      <div class = "input-note-text"> ${assignment.note} </div>`;
-    }
-    if (assignments[i].status) {
-      taskItem.innerHTML = `<button class = "check-task" onclick = "checkTask(event,${i})">
+      }
+      if (assignment.type == "mcv") {
+        taskItem.innerHTML = `<span id="taskName${i}" class="taskName" >${assignment.title}</span>
+        <span >${assignment.category}</span> <span id="taskDueDate${i}" class = "taskDueDate">${assignment.dueDate}</span>`;
+      }
+      else if (assignments[i].status) {
+        taskItem.innerHTML = `<button class = "check-task" onclick = "checkTask(event,${i})">
                           <div id = "checkMark${i}" class = "checkMark" style = "display:flex;"></div>
                         </button>
-                        <span id="taskName${i}" class="taskName" style = "textDecoration : line-through;">${assignment.title}</span>
+                        <span id="taskName${i}" class="taskName" style = "text-decoration : line-through;">${assignment.title}</span>
+                        <span >${assignment.category}</span>
                         <span id="taskDueDate${i}" class = "taskDueDate">${assignment.dueDate}</span>`;
-    } else {
-      taskItem.innerHTML = `<button class = "check-task" onclick = "checkTask(event,${i})">
+      } else {
+        taskItem.innerHTML = `<button class = "check-task" onclick = "checkTask(event,${i})">
                           <div id = "checkMark${i}" class = "checkMark"></div>
                         </button>
                         <span id="taskName${i}" class="taskName">${assignment.title}</span>
+                        <span >${assignment.category}</span>
                         <span id="taskDueDate${i}" class = "taskDueDate">${assignment.dueDate}</span>`;
-    }
-    oneRow.appendChild(taskItem);
-    oneRow.appendChild(bin);
-    taskList.appendChild(oneRow);
-    taskList.appendChild(note);
-    taskInput.value = '';
-    taskItem.addEventListener('click', () => {
-      clickTask(i);
-    });
-    bin.addEventListener("click", () => {
-      deleteTask(i);
-    });
+      }
+      oneRow.appendChild(taskItem);
+      oneRow.appendChild(bin);
+      taskList.appendChild(oneRow);
+      taskList.appendChild(note);
+      taskInput.value = '';
+      taskItem.addEventListener('click', () => {
+        clickTask(i);
+      });
+      bin.addEventListener("click", () => {
+        deleteTask(i);
+      });
     }
     // console.log(i);
-    
+
   });
+  // set up category
+  const categoryBox = document.getElementById('categoryBox');
+  const selectCategory = document.getElementById("selectCategory");
+  const initCategory = document.createElement('option');
+  categoryBox.innerHTML = "";
+  selectCategory.innerHTML = "";
+  initCategory.value = ""
+  
+  console.log("category");
+  console.log(category);
+  console.log("length");
+  console.log(category.length);
+
+  
+  for (let i = 0; i < category.length; i++) {
+    console.log("I: ",i,category[i]);
+    const categorySidebar = document.createElement('button');
+    categorySidebar.className = "categorySideBar";
+    categorySidebar.innerHTML = category[i];
+    categorySidebar.id = category[i];
+    categoryBox.appendChild(categorySidebar);
+    categorySidebar.addEventListener("click", () => {
+      showTask(category[i]);
+    });
+  }
+
+  initCategory.innerHTML = "---Category---";
+  selectCategory.appendChild(initCategory);
+
+  category.push("Other");
+
+  for (let i = 0; i < category.length; i++) {
+      if(category[i] == "All") continue;
+      const optionCategory = document.createElement('option');
+      optionCategory.innerHTML = category[i];
+      optionCategory.value = category[i];
+      selectCategory.appendChild(optionCategory);
+      console.log(category[i]);
+  }
+
+
 }
 
 const getAssignmentsOfCategory = (category) => {
@@ -219,11 +346,12 @@ const getAssignmentsOfCategory = (category) => {
 
 function deleteTask(idx) {
   console.log(assignments[idx].title);
-  if(getAssignmentsOfCategory(assignments[idx].category).length==0 && assignments[idx].category!="All"){
-      let categorySidebar = document.getElementById(assignments[idx].category);
-      categoryBox.removeChild(categorySidebar);
-      category.splice(category.indexOf(assignments[idx].category),1);
-      console.log(category);
+  // console.log(getAssignmentsOfCategory(assignments[idx].category).length);
+  if (getAssignmentsOfCategory(assignments[idx].category).length == 1 && assignments[idx].category != "All") {
+    // let categoryInSidebar = document.getElementById(assignments[idx].category);
+    // categoryBox.removeChild(categoryInSidebar);
+    category.splice(category.indexOf(assignments[idx].category), 1);
+    // console.log(category);
   }
   fetch(`http://${backendIPAddress}/items/${assignments[idx].id}`, {
     method: "DELETE",
@@ -231,11 +359,40 @@ function deleteTask(idx) {
   });
 
   assignments.splice(idx, 1);
-  showTask();
-  
   console.log(assignments);
+  showTask("All");
 }
 
+function checkTask(event, idx) {
+  let x = document.getElementById("checkMark" + idx);
+  let y = document.getElementById("taskName" + idx);
+  console.log(x.style.display);
+  event.stopPropagation();
+  if (x.style.display != "flex" || x.style.display == null) {
+    x.style.display = "flex";
+    y.style.textDecoration = "line-through";
+    assignments[idx].status = true;
+  } else {
+    x.style.display = "none";
+    y.style.textDecoration = "none";
+    assignments[idx].status = false;
+  }
+
+  const bodys = {
+    status: assignments[idx].status,
+  }
+
+  const options = {
+    method: "PATCH",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(bodys),
+  }
+
+  fetch(`http://${backendIPAddress}/items/${assignments[idx].id}`, options)
+}
 // TODO #2.2: Show group members
 // const showGroupMembers = async () => {
 //   const member_list = document.getElementById("member-list");

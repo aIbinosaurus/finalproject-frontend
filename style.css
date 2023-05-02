@@ -31,7 +31,7 @@ body {
 }
 
 .login {
-  display:"flex";
+  display: "flex";
   background: none;
   border: none;
   position: flex;
@@ -95,8 +95,184 @@ body {
   transition: 0.2s;
   background: #FF872B;
   border: none;
+  /* box-shadow: rgb(85, 91, 255) 0px 0px 0px 3px, rgb(31, 193, 27) 0px 0px 0px 6px, rgb(255, 217, 19) 0px 0px 0px 9px, rgb(255, 156, 85) 0px 0px 0px 12px, rgb(255, 85, 85) 0px 0px 0px 15px; */
   color: white;
 }
+
+.lds-roller {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 40px 40px;
+}
+
+.lds-roller div:after {
+  animation: lds-roller-2 6s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #FF872B;
+  margin: -4px 0 0 -4px;
+}
+
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+
+.lds-roller div:nth-child(1):after {
+  top: 63px;
+  left: 63px;
+}
+
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+
+.lds-roller div:nth-child(2):after {
+  top: 68px;
+  left: 56px;
+}
+
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+
+.lds-roller div:nth-child(3):after {
+  top: 71px;
+  left: 48px;
+}
+
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+
+.lds-roller div:nth-child(4):after {
+  top: 72px;
+  left: 40px;
+}
+
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+
+.lds-roller div:nth-child(5):after {
+  top: 71px;
+  left: 32px;
+}
+
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+
+.lds-roller div:nth-child(6):after {
+  top: 68px;
+  left: 24px;
+}
+
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+
+.lds-roller div:nth-child(7):after {
+  top: 63px;
+  left: 17px;
+}
+
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+
+.lds-roller div:nth-child(8):after {
+  top: 56px;
+  left: 12px;
+}
+
+@keyframes lds-roller {
+  0% {
+    background: red;
+    transform: rotate(0deg);
+  }
+
+  12.5% {
+    background: rgb(255, 134, 20);
+  }
+
+  25% {
+    background: rgb(226, 195, 38);
+  }
+
+  37.5% {
+    background: rgb(36, 191, 31);
+  }
+
+  50% {
+    background: rgb(37, 131, 208);
+  }
+
+  62.5% {
+    background: rgb(46, 34, 182);
+  }
+
+  75% {
+    background: rgb(87, 37, 216);
+  }
+
+  87.5% {
+    background: rgb(153, 4, 195);
+  }
+
+  100% {
+    background: red;
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes lds-roller-2 {
+  0% {
+    background: red;
+  }
+
+  12.5% {
+    background: rgb(255, 134, 20);
+  }
+
+  25% {
+    background: rgb(226, 195, 38);
+  }
+
+  37.5% {
+    background: rgb(36, 191, 31);
+  }
+
+  50% {
+    background: rgb(37, 131, 208);
+  }
+
+  62.5% {
+    background: rgb(46, 34, 182);
+  }
+
+  75% {
+    background: rgb(87, 37, 216);
+  }
+
+  87.5% {
+    background: rgb(153, 4, 195);
+  }
+
+  100% {
+    background: red;
+  }
+}
+
 
 #addTaskBox {
   display: none;
@@ -235,7 +411,7 @@ option {
   justify-content: center;
   width: 686px;
   max-width: 90%;
-  gap: 10px;
+  gap: 25px;
   list-style-type: none;
   padding-inline-start: 0px;
 }
@@ -245,18 +421,85 @@ option {
   align-items: center;
   gap: 10px;
   background: white;
-  border: 1px solid #022539;
+  /* border: none; */
   border-radius: 10px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  border: 2px solid red;
+  animation: rgb linear 3s infinite;
   width: 100%;
   height: 65px;
   font-family: 'Inter', sans-serif;
   color: black;
 }
 
+@keyframes rgb {
+  0% {
+    border-color: red;
+  }
+
+  12.5% {
+    border-color: rgb(255, 134, 20);
+  }
+
+  25% {
+    border-color: rgb(226, 195, 38);
+  }
+
+  37.5% {
+    border-color: rgb(36, 191, 31);
+  }
+
+  50% {
+    border-color: rgb(37, 131, 208);
+  }
+
+  62.5% {
+    border-color: rgb(46, 34, 182);
+  }
+
+  75% {
+    border-color: rgb(87, 37, 216);
+  }
+
+  87.5% {
+    border-color: rgb(153, 4, 195);
+  }
+
+  100% {
+    border-color: red;
+  }
+}
+
 .task:hover {
   transition: 0.2s;
   background: #022539;
+  /* box-shadow: rgb(85, 91, 255) 0px 0px 0px 3px, rgb(31, 193, 27) 0px 0px 0px 6px, rgb(255, 217, 19) 0px 0px 0px 9px, rgb(255, 156, 85) 0px 0px 0px 12px, rgb(255, 85, 85) 0px 0px 0px 15px; */
   color: white;
+  cursor: pointer;
+}
+
+.mcvTask {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #038BDB;
+  border: none;
+  border-radius: 10px;
+  border: 1px solid red;
+  animation: rgb linear 3s infinite;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  width: 100%;
+  height: 65px;
+  font-family: 'Inter', sans-serif;
+  color: white;
+}
+
+.mcvTask:hover {
+  transition: 0.2s;
+  background: white;
+  /* box-shadow: rgb(85, 91, 255) 0px 0px 0px 3px, rgb(31, 193, 27) 0px 0px 0px 6px, rgb(255, 217, 19) 0px 0px 0px 9px, rgb(255, 156, 85) 0px 0px 0px 12px, rgb(255, 85, 85) 0px 0px 0px 15px; */
+  color: #038BDB;
   cursor: pointer;
 }
 
@@ -290,10 +533,6 @@ option {
 .checkMark:hover {
   transition: 0.2s;
   background: red;
-}
-
-#taskName {
-  text-decoration: none;
 }
 
 .taskName {
@@ -457,7 +696,25 @@ option {
   padding-inline-start: 10%;
 }
 
-/* @media screen and (max-width: 768px) {
+@media screen and (max-width: 500px) {
+  .bodyy {
+    transform: scale(0.5);
+    margin-right: -160px;
+    margin-left: -206px;
+    margin-top: -250px;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .bodyy {
+    transform: scale(0.4);
+    margin-right: -170px;
+    margin-left: -204px;
+    margin-top: -294px;
+  }
+}
+
+/*
   #navbar {
     height: 80px;
   }
