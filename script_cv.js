@@ -15,25 +15,16 @@ const checkLoginStatus = async () => {
       method: "GET",
       credentials: "include",
     };
-    try{
-    //   await fetch(
-    //   `http://${backendIPAddress}/courseville/get_profile_info`,
-    //   options
-    // )
-    // .catch((error) => {
-    //     console.log("error", error);
-    //     return false;
-    //   })
-    //   .then((response) => response.json())    
+    try{ 
     const response = await fetch(`http://${backendIPAddress}/courseville/get_profile_info`,options); 
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
   }
     catch(error){
-      console.log("false");
+      console.log("User not logged in");
       return false;
     }
-    console.log("true");
+    console.log("User logged in");
     return true;
 };
 // Example: Send Get user profile ("GET") request to backend server and show the response on the webpage
@@ -42,19 +33,14 @@ const getUserProfile = async () => {
     method: "GET",
     credentials: "include",
   };
-  await fetch(
+  return await fetch(
     `http://${backendIPAddress}/courseville/get_profile_info`,
     options
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data.user);
-      document.getElementById(
-        "eng-name-info"
-      ).innerHTML = `${data.user.title_en} ${data.user.firstname_en} ${data.user.lastname_en}`;
-      document.getElementById(
-        "thai-name-info"
-      ).innerHTML = `${data.user.title_th} ${data.user.firstname_th} ${data.user.lastname_th}`;
+      // console.log(data.user);
+      return data.user.firstname_en;
     })
     .catch((error) => console.error(error));
 };

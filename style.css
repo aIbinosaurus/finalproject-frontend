@@ -31,7 +31,7 @@ body {
 }
 
 .login {
-  display: "flex";
+  display:"flex";
   background: none;
   border: none;
   position: flex;
@@ -42,6 +42,11 @@ body {
   font-size: 100%;
   font-weight: bolder;
   text-align: right;
+}
+
+.login:hover {
+  color: #FF872B;
+  cursor: pointer;
 }
 
 .logout {

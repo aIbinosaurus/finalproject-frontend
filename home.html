@@ -21,18 +21,22 @@
         <script>
             
             const categoryBox = document.getElementById('categoryBox');
-            const category = ["Work", "Home", "School", "other"];
+            const category = ["All","Assignment","Other"];
             for (let i = 0; i < category.length - 1; i++) {
                 const categorySidebar = document.createElement('button');
                 categorySidebar.className = "categorySideBar";
                 categorySidebar.innerHTML = category[i];
-                categorySidebar.innerHTML = category[i];
+                categorySidebar.id = category[i];
                 categoryBox.appendChild(categorySidebar);
+                categorySidebar.addEventListener("click", () => {
+                    showTask(category[i]);
+                });
             }
         </script>
+    
         <button class="login" id="login" onclick=authorizeApplication()>Log In</button>
         <button class="logout" id="logout" onclick=logout()>Log Out</button>
-        <!-- <button class="logout" id="logout" onclick=getAssignmentsFromCV()>eiei</button> -->
+        <!-- <button class="logout" id="logout" onclick=getUserProfile()>eiei</button> -->
     </div>
     <div class="page">
         <button class="addTask" onclick="showAddTask()">Add Task</button>
@@ -56,7 +60,7 @@
             const addCategory = document.getElementById("addCategory");
             const selectCategory = document.getElementById("selectCategory");
 
-            for (let i = 0; i < category.length; i++) {
+            for (let i = 1; i < category.length; i++) {
                 const optionCategory = document.createElement('option');
                 optionCategory.innerHTML = category[i];
                 optionCategory.value = category[i];
@@ -67,7 +71,7 @@
             selectCategory.addEventListener("change", function () {
                 // console.log(selectCategory.innerHTML);
                 // selectCategory.innerHTML += "<div></div>";
-                if (selectCategory.value == "other") {
+                if (selectCategory.value == "Other") {
                     addCategory.style.display = "flex";
                     console.log(selectCategory.value);
                 }
@@ -85,8 +89,6 @@
 
         <script>
             addTaskButton.addEventListener('click', () => {
-                //if (taskInput.value.trim() === '') return;
-                //if (taskDueDate.value.trim() === '') return;
                 const oneRow = document.createElement('div');
                 const note = document.createElement('div');
                 const taskItem = document.createElement('button');
@@ -95,12 +97,11 @@
                 addTaskBox.style.display = "none";
 
                 
-                if (taskCategory.value == "other") {
-                    // console.log(newCategory.value);
+                if (taskCategory.value == "Other") {
                     const other = selectCategory.lastChild;
                     selectCategory.removeChild(selectCategory.lastChild);
                     category[category.length - 1] = newCategory.value;
-                    category.push("other");
+                    category.push("Other");
                     let j = category.length - 2;
                     const optionCategory = document.createElement('option');
                     const categorySidebar = document.createElement('button');
@@ -133,9 +134,11 @@
                 if (x.style.display != "flex" || x.style.display == null) {
                     x.style.display = "flex";
                     y.style.textDecoration = "line-through";
+                    assignments[idx].status = true;
                 } else {
                     x.style.display = "none";
                     y.style.textDecoration = "none";
+                    assignments[idx].status = false;
                 }
             }
             function clickTask(idx) {
@@ -151,58 +154,7 @@
                 }
             }
 
-            function deleteTask(idx) {
-                let oneRow = document.getElementById("oneRow" + idx);
-                let note = document.getElementById("note" + idx);
-                // assignments.splice(i,1);
-                // taskList.removeChild(taskList[idx]);
-                // oneRow.remove();
-                // note.remove();
-                assignments.splice(idx, 1);
-                showTask();
-                console.log(assignments);
-            }
         </script>
-        <div id="pagecover">
-        </div>
-        <!-- <script>
-            const hamburger = document.getElementById("hamburger");
-            const closeSidebar = document.getElementById("close-sidebar");
-            const sidebar = document.getElementById("categoryBox");
-            const pagecover = document.getElementById("pagecover");
-
-            window.addEventListener('resize', () => {
-                const screenWidth = window.innerWidth;
-                console.log(`Screen width is ${screenWidth}px.`);
-                if (screenWidth > 768) {
-                    hamburger.style.visibility = "hidden";
-                    sidebar.style.visibility = "visible";
-                    pagecover.style.visibility = "hidden";
-                    closeSidebar.style.visibility = "hidden";
-                }
-                else {
-                    hamburger.style.visibility = "visible";
-                    sidebar.style.visibility = "hidden";
-                    pagecover.style.visibility = "hidden";
-                    closeSidebar.style.visibility = "hidden";
-                    hamburger.addEventListener("click", () => {
-                        hamburger.style.visibility = "hidden";
-                        sidebar.style.visibility = "visible";
-                        pagecover.style.visibility = "visible";
-                        closeSidebar.style.visibility = "visible";
-                    });
-                    closeSidebar.addEventListener("click", () => {
-                        hamburger.style.visibility = "visible";
-                        sidebar.style.visibility = "hidden";
-                        pagecover.style.visibility = "hidden";
-                        closeSidebar.style.visibility = "hidden";
-                    });
-                }
-            });
-
-
-        </script> -->
-
     </div>
 </body>
 </html>

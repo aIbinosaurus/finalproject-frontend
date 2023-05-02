@@ -125,7 +125,7 @@ const getAssignmentsFromCV = async () => {
   const courses = data.data.student;
   console.log("courses");
   console.log(courses);
-  if()
+  // if(courses.)
   await Promise.all(courses.map(async (course) => {
     let cv_cid = course.cv_cid;
     let assignments_courses;
