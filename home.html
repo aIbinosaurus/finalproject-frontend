@@ -38,7 +38,7 @@
         <button class="logout" id="logout" onclick=logout()>Log Out</button>
         <!-- <button class="logout" id="logout" onclick=getUserProfile()>eiei</button> -->
     </div>
-    <div class="page">
+    <div class="page" style="transform: scale(0.5);">
         <button class="addTask" onclick="showAddTask()">Add Task</button>
         <div id="addTaskBox">
             <div class="title-and-date">
@@ -56,10 +56,8 @@
         </div>
         <div id = "taskList"></div>
         <script>
-            
-            const addCategory = document.getElementById("addCategory");
             const selectCategory = document.getElementById("selectCategory");
-
+            
             for (let i = 1; i < category.length; i++) {
                 const optionCategory = document.createElement('option');
                 optionCategory.innerHTML = category[i];
@@ -94,26 +92,33 @@
                 const taskItem = document.createElement('button');
                 const bin = document.createElement('button');
 
-                addTaskBox.style.display = "none";
+                let newCategory;
 
-                
-                if (taskCategory.value == "Other") {
-                    const other = selectCategory.lastChild;
-                    selectCategory.removeChild(selectCategory.lastChild);
-                    category[category.length - 1] = newCategory.value;
-                    category.push("Other");
-                    let j = category.length - 2;
-                    const optionCategory = document.createElement('option');
-                    const categorySidebar = document.createElement('button');
-                    optionCategory.innerHTML = category[j];
-                    optionCategory.value = category[j];
-                    categorySidebar.innerHTML = category[j];
-                    categorySidebar.className = "categorySideBar";
-                    categoryBox.appendChild(categorySidebar);
-                    selectCategory.appendChild(optionCategory);
-                    selectCategory.appendChild(other);
-                    console.log(category);
+                if(selectCategory.value == "Other"){
+                    newCategory = addCategory.value;
                 }
+                else{
+                    newCategory = selectCategory.value;
+                }
+
+                // if (taskCategory.value == "Other") {
+                //     const other = selectCategory.lastChild;
+                //     selectCategory.removeChild(selectCategory.lastChild);
+                //     category[category.length - 1] = newCategory.value;
+                //     category.push("Other");
+                    
+                //     let j = category.length - 2;
+                //     const optionCategory = document.createElement('option');
+                //     const categorySidebar = document.createElement('button');
+                //     optionCategory.innerHTML = category[j];
+                //     optionCategory.value = category[j];
+                //     categorySidebar.innerHTML = category[j];
+                //     categorySidebar.className = "categorySideBar";
+                //     categoryBox.appendChild(categorySidebar);
+                //     selectCategory.appendChild(optionCategory);
+                //     selectCategory.appendChild(other);
+                //     console.log(category);
+                // }
                 
                 let now = taskDueDate.value;
                 now = now.split("-");
@@ -121,7 +126,7 @@
                 time = time.getTime()/1000;
                 console.log("value");
                 console.log(taskInput.value);
-                newTask(taskInput.value, taskDueDate.value,time, taskCategory.value, taskNote.value, taskLink.value);
+                newTask(taskInput.value, taskDueDate.value,time, newCategory, taskNote.value, taskLink.value);
                 
             });
         </script>
