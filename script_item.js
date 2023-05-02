@@ -1,5 +1,5 @@
 // TODO #4.0: Change this IP address to EC2 instance public IP address when you are going to deploy this web application
-// const backendIPAddress = "127.0.0.1:3000";
+// const backendIPAddress = "3.211.186.194:3000";
 
 const taskList = document.getElementById('taskList');
 const taskInput = document.getElementById('title');
