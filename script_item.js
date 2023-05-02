@@ -10,40 +10,36 @@ const addTaskButton = document.getElementById('addTaskButton');
 const taskCategory = document.getElementById('selectCategory');
 const newCategory = document.getElementById('addCategory');
 let loginButton = document.getElementById('login');
-let logoutButton = document.getElementById('login');
-let isLogin = false;
+let logoutButton = document.getElementById('logout');
 let itemsData;
-
+let isLogin = false;
+let username = "";
 let assignments = [];
 
-window.onload = async() =>{
-  if(checkLoginStatus()){
+window.onload = async () => {
+  let checklLogin = await checkLoginStatus();
+  username = await getUserProfile();
+  if(checklLogin){
     isLogin = true;
   }
-  await getAssignmentsFromCV();
-  console.log("test");
-  console.log(assignments);
-  console.log(assignments.length);
-    showTask();
-    console.log("Load");
-    console.log(onLoad);
   showLogin();
+  await getAssignmentsFromCV();
+  await getAssignmentsFromDB();
+  showTask("All");
 }
-
-
 
 function showLogin(){
-  let loginButton = document.getElementById('login');
-  let logoutButton = document.getElementById('login');
+
   if(isLogin){
-    loginButton.style.display("none");
-    logoutButton.style.display("flex");
-  } 
+    loginButton.style.display="none";
+    logoutButton.style.display="flex";
+  }
   else{
-    loginButton.style.display("flex");
-    logoutButton.style.display("none");
+    loginButton.style.display="flex";
+    logoutButton.style.display="none";
   }
 }
+
 
 function showAddTask() {
   let x = document.getElementById("addTaskBox");
@@ -55,21 +51,40 @@ function showAddTask() {
 }
 
 async function newTask(title, dueDate, dueTime, category, newNote, link) {
+  // console.log("username")
+  // console.log(username)
+  if(title=="" || dueDate=="" || dueTime=="" || category=="" || !isLogin || username==""){
+    return;
+  }
+  const currentDate = new Date(); const timestamp = currentDate. getTime();
   let dict = {
+    id:username+timestamp+title,
+    user: username,
     title: title,
     dueDate: dueDate,
     dueTime: dueTime,
     category: category,
     note: newNote,
-    link: link
+    link: link,
+    status: false
   }
+  console.log("DICT")
+  console.log(dict)
   assignments.push(dict);
-  showTask();
-  const response = await fetch(`http://${backendIPAddress}/items`, {
-    method: 'POST',
+  showTask("All");
+
+  const options = {
+    method: "POST",
     credentials: "include",
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(dict)
-  });
+  };
+  const res = await fetch(`http://${backendIPAddress}/items`, options)
+  const data = await res.json();
+  console.log("data")
+  console.log(data)
 }
 
 const getAssignmentsFromDB = async () => {
@@ -77,22 +92,30 @@ const getAssignmentsFromDB = async () => {
     method: "GET",
     credentials: "include",
   };
-  await fetch(`http://${backendIPAddress}/items`, options)
-    .then((response) => response.json())
-    .then((data) => {
-      itemsData = data;
-    })
-    .catch((error) => console.error(error));
-  console.log(itemsData);
-  assignments.push(itemsData);
-  showTask();
+  const res = await fetch(`http://${backendIPAddress}/items`, options)
+  const data = await res.json();
+  itemsData = data;
+  console.log("itemsData from DB")
+  console.log(itemsData)
+  itemsData.map((item) => {
+    if(item.user != username)return;
+    let assignment = {};
+    assignment["id"] = item.id;
+    assignment["title"] = item.title;
+    assignment["dueDate"] = item.dueDate;
+    assignment["category"] = item.category;
+    assignment["note"] = item.note;
+    assignment["link"] = item.link;
+    assignment["status"] = item.status;
+    assignments.push(assignment);
+  })
 };
 
 const getAssignmentsFromCV = async () => {
   onLoad = true;
   const d = new Date();
   const time = d.getTime() / 1000;
-  console.log(time);
+  // console.log(time);
   const options = {
     method: "GET",
     credentials: "include",
@@ -100,18 +123,16 @@ const getAssignmentsFromCV = async () => {
   const response = await fetch(`http://${backendIPAddress}/courseville/get_courses`, options);
   const data = await response.json();
   const courses = data.data.student;
-
   console.log("courses");
-  console.log(courses.length);
   console.log(courses);
-
+  if()
   await Promise.all(courses.map(async (course) => {
     let cv_cid = course.cv_cid;
     let assignments_courses;
     const response = await fetch(`http://${backendIPAddress}/courseville/get_course_assignments/${cv_cid}`, options);
     const data = await response.json();
     assignments_courses = data.data;
-    console.log(assignments_courses);
+    // console.log(assignments_courses);
     await Promise.all(assignments_courses.map(async (assignment_course) => {
       let item_id = assignment_course.itemid;
       const response = await fetch(`http://${backendIPAddress}/courseville/get_assignment_detail/${item_id}`, options);
@@ -120,10 +141,11 @@ const getAssignmentsFromCV = async () => {
       if (data.data.duetime > time) {
         assignment["title"] = data.data.title;
         assignment["dueDate"] = data.data.duedate;
-        assignment["category"] = "assignment";
+        assignment["category"] = "Assignment";
         assignment["dueTime"] = data.data.duetime;
         assignment["note"] = "";
         assignment["link"] = `https://www.mycourseville.com/?q=courseville/worksheet/${cv_cid}/${item_id}`;
+        assignment["status"] = false;
         assignments.push(assignment);
       }
     }))
@@ -131,13 +153,11 @@ const getAssignmentsFromCV = async () => {
   onLoad = false;
 };
 
-const showTask = () =>{
-  taskList.innerHTML="";
-  console.log("ShowTask");
-  console.log(assignments);
+const showTask = (targetCategory)=> {
+  taskList.innerHTML = "";
   assignments.map((assignment, i) => {
-    console.log(i);
-    const oneRow = document.createElement('div');
+    if(assignment.category==targetCategory || targetCategory=="All"){
+      const oneRow = document.createElement('div');
     const note = document.createElement('div');
     const taskItem = document.createElement('button');
     const bin = document.createElement('button');
@@ -153,7 +173,7 @@ const showTask = () =>{
     bin.id = `bin${i}`;
     bin.innerHTML = `<img src="./img/image-removebg-preview 1.png" alt="bin">`;
 
-    if (taskLink.value != '') { 
+    if (taskLink.value != '') {
       note.innerHTML = `<div class = "note-text">Note</div>
                       <div class = "input-note-text"> ${assignment.note} </div>
                       <a class = "link-text" href="${assignment.link}">Link to ${assignment.title}</a>`;
@@ -161,11 +181,19 @@ const showTask = () =>{
       note.innerHTML = `<div class = "note-text" style= "height : 120 ";>Note</div>
                       <div class = "input-note-text"> ${assignment.note} </div>`;
     }
-    taskItem.innerHTML = `<button class = "check-task" onclick = "checkTask(event,${i})">
+    if (assignments[i].status) {
+      taskItem.innerHTML = `<button class = "check-task" onclick = "checkTask(event,${i})">
+                          <div id = "checkMark${i}" class = "checkMark" style = "display:flex;"></div>
+                        </button>
+                        <span id="taskName${i}" class="taskName" style = "textDecoration : line-through;">${assignment.title}</span>
+                        <span id="taskDueDate${i}" class = "taskDueDate">${assignment.dueDate}</span>`;
+    } else {
+      taskItem.innerHTML = `<button class = "check-task" onclick = "checkTask(event,${i})">
                           <div id = "checkMark${i}" class = "checkMark"></div>
                         </button>
                         <span id="taskName${i}" class="taskName">${assignment.title}</span>
                         <span id="taskDueDate${i}" class = "taskDueDate">${assignment.dueDate}</span>`;
+    }
     oneRow.appendChild(taskItem);
     oneRow.appendChild(bin);
     taskList.appendChild(oneRow);
@@ -177,8 +205,37 @@ const showTask = () =>{
     bin.addEventListener("click", () => {
       deleteTask(i);
     });
+    }
+    // console.log(i);
+    
   });
 }
+
+const getAssignmentsOfCategory = (category) => {
+  return assignments.filter((assignment) => {
+    return assignment.category === category;
+  });
+}
+
+function deleteTask(idx) {
+  console.log(assignments[idx].title);
+  if(getAssignmentsOfCategory(assignments[idx].category).length==0 && assignments[idx].category!="All"){
+      let categorySidebar = document.getElementById(assignments[idx].category);
+      categoryBox.removeChild(categorySidebar);
+      category.splice(category.indexOf(assignments[idx].category),1);
+      console.log(category);
+  }
+  fetch(`http://${backendIPAddress}/items/${assignments[idx].id}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  assignments.splice(idx, 1);
+  showTask();
+  
+  console.log(assignments);
+}
+
 // TODO #2.2: Show group members
 // const showGroupMembers = async () => {
 //   const member_list = document.getElementById("member-list");
