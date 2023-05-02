@@ -7,16 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDoList</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script_item.js" defer></script>
+    <script src = "script_cv.js" defer></script>
     </link>
 </head>
 
-<body>
+<body onload="loadFunction()">
     <div class="navbar">
         <div class="title">
             <span style="color: #FF872B;"> To Do </span><span style="color: black;">List</span>
         </div>
         <div id="categoryBox" class="categoryBox"></div>
         <script>
+            
             const categoryBox = document.getElementById('categoryBox');
             const category = ["Work", "Home", "School", "other"];
             for (let i = 0; i < category.length - 1; i++) {
@@ -27,20 +30,12 @@
                 categoryBox.appendChild(categorySidebar);
             }
         </script>
-        <button class="logout" id="logout">Log Out</button>
+        <button class="login" id="login" onclick=authorizeApplication()>Log In</button>
+        <button class="logout" id="logout" onclick=logout()>Log Out</button>
+        <!-- <button class="logout" id="logout" onclick=getAssignmentsFromCV()>eiei</button> -->
     </div>
     <div class="page">
         <button class="addTask" onclick="showAddTask()">Add Task</button>
-        <script>
-            function showAddTask() {
-                let x = document.getElementById("addTaskBox");
-                if (x.style.display == "none") {
-                    x.style.display = "flex";
-                } else {
-                    x.style.display = "none";
-                }
-            }
-        </script>
         <div id="addTaskBox">
             <div class="title-and-date">
                 <input class="inputText" type="text" id="title" placeholder="Title" required></input>
@@ -55,7 +50,9 @@
             <input class="inputLink" type="text" id="link" placeholder="Link"></input>
             <button class="add" id="addTaskButton">Add</button>
         </div>
+        <div id = "taskList"></div>
         <script>
+            
             const addCategory = document.getElementById("addCategory");
             const selectCategory = document.getElementById("selectCategory");
 
@@ -85,24 +82,19 @@
         <ul id="taskList">
             <!-- Tasks will be appended here -->
         </ul>
-        <script>
-            const taskInput = document.getElementById('title');
-            const taskDueDate = document.getElementById('dueDate');
-            const taskNote = document.getElementById('note');
-            const taskLink = document.getElementById('link')
-            const addTaskButton = document.getElementById('addTaskButton');
-            const taskList = document.getElementById('taskList');
-            const taskCategory = document.getElementById('selectCategory');
-            const newCategory = document.getElementById('addCategory');
 
+        <script>
             addTaskButton.addEventListener('click', () => {
-                if (taskInput.value.trim() === '') return;
-                if (taskDueDate.value.trim() === '') return;
+                //if (taskInput.value.trim() === '') return;
+                //if (taskDueDate.value.trim() === '') return;
                 const oneRow = document.createElement('div');
                 const note = document.createElement('div');
                 const taskItem = document.createElement('button');
                 const bin = document.createElement('button');
 
+                addTaskBox.style.display = "none";
+
+                
                 if (taskCategory.value == "other") {
                     // console.log(newCategory.value);
                     const other = selectCategory.lastChild;
@@ -121,48 +113,15 @@
                     selectCategory.appendChild(other);
                     console.log(category);
                 }
-                note.className = "note";
-                taskItem.className = "task";
-                bin.className = "deleteButton";
-                let i = taskList.childElementCount;
-                oneRow.id = `oneRow${i}`
-                oneRow.className = "oneRow";
-                note.id = `note${i}`
-                taskItem.id = `task${i}`
-                bin.id = `bin${i}`
-                bin.innerHTML = `
-                    <img src="./img/image-removebg-preview 1.png" alt="bin">
-                    `
-                if (taskLink.value != '') {
-                    note.innerHTML = `
-                            <div class = "note-text">Note</div>
-                            <div class = "input-note-text"> ${taskNote.value} </div>
-                            <a class = "link-text" href="${taskLink.value}">Link to ${taskInput.value}</a>
-                        `
-                } else {
-                    note.innerHTML = `
-                            <div class = "note-text" style= "height : 120 ";>Note</div>
-                            <div class = "input-note-text"> ${taskNote.value} </div>
-                        `
-                }
-                taskItem.innerHTML = `
-                        <button class = "check-task" onclick = "checkTask(event,${i})">
-                            <div id = "checkMark${i}" class = "checkMark"></div>
-                        </button>
-                        <span id="taskName${i}" class="taskName">${taskInput.value}</span>
-                        <span id="taskDueDate${i}" class = "taskDueDate">${taskDueDate.value}</span>
-                    `
-                oneRow.appendChild(taskItem);
-                oneRow.appendChild(bin);
-                taskList.appendChild(oneRow);
-                taskList.appendChild(note);
-                taskInput.value = '';
-                taskItem.addEventListener('click', () => {
-                    clickTask(i);
-                });
-                bin.addEventListener("click", () => {
-                    deleteTask(i);
-                });
+                
+                let now = taskDueDate.value;
+                now = now.split("-");
+                let time = new Date(now[0], now[1] - 1, now[2]);
+                time = time.getTime()/1000;
+                console.log("value");
+                console.log(taskInput.value);
+                newTask(taskInput.value, taskDueDate.value,time, taskCategory.value, taskNote.value, taskLink.value);
+                
             });
         </script>
         <script>
@@ -195,13 +154,18 @@
             function deleteTask(idx) {
                 let oneRow = document.getElementById("oneRow" + idx);
                 let note = document.getElementById("note" + idx);
-                oneRow.remove();
-                note.remove();
+                // assignments.splice(i,1);
+                // taskList.removeChild(taskList[idx]);
+                // oneRow.remove();
+                // note.remove();
+                assignments.splice(idx, 1);
+                showTask();
+                console.log(assignments);
             }
         </script>
         <div id="pagecover">
         </div>
-        <script>
+        <!-- <script>
             const hamburger = document.getElementById("hamburger");
             const closeSidebar = document.getElementById("close-sidebar");
             const sidebar = document.getElementById("categoryBox");
@@ -237,12 +201,8 @@
             });
 
 
-        </script>
+        </script> -->
 
-        <script>
-
-        </script>
     </div>
 </body>
-
 </html>

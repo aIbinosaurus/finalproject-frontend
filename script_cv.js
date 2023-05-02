@@ -7,9 +7,35 @@ const authorizeApplication = () => {
 
 // TODO #3.1: Change group number
 const getGroupNumber = () => {
-  return 99;
+  return 13;
 };
 
+const checkLoginStatus = async () => {
+    const options = {
+      method: "GET",
+      credentials: "include",
+    };
+    try{
+    //   await fetch(
+    //   `http://${backendIPAddress}/courseville/get_profile_info`,
+    //   options
+    // )
+    // .catch((error) => {
+    //     console.log("error", error);
+    //     return false;
+    //   })
+    //   .then((response) => response.json())    
+    const response = await fetch(`http://${backendIPAddress}/courseville/get_profile_info`,options); 
+    const data = await response.json();
+    console.log(data);
+  }
+    catch(error){
+      console.log("false");
+      return false;
+    }
+    console.log("true");
+    return true;
+};
 // Example: Send Get user profile ("GET") request to backend server and show the response on the webpage
 const getUserProfile = async () => {
   const options = {
@@ -58,4 +84,4 @@ const logout = async () => {
   window.location.href = `http://${backendIPAddress}/courseville/logout`;
 };
 
-document.getElementById("group-id").innerHTML = getGroupNumber();
+// document.getElementById("group-id").innerHTML = getGroupNumber();
